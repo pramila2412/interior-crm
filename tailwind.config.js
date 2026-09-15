@@ -7,24 +7,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Semantic mapping for Moody Gold Theme
+        // Semantic mapping for Classic Luxury Theme (Light & High Contrast)
         primary: {
-          DEFAULT: '#E5A93C', // Antique Gold
-          foreground: '#1C1C1E', // Dark Charcoal
+          DEFAULT: '#2D3748', // Deep Slate (Very high contrast)
+          foreground: '#FFFFFF', // White text on primary buttons
         },
         secondary: {
-          DEFAULT: '#5C6B73', // Dusty Blue
-          foreground: '#F5F5F5',
+          DEFAULT: '#EDF2F7', // Soft grayish blue for backgrounds/hover
+          foreground: '#2D3748', // Deep Slate text on secondary
         },
-        background: '#1C1C1E', // Dark Charcoal
-        card: '#2C2C2E', // Lighter Charcoal
+        background: '#F8F9FA', // Crisp very light gray
+        card: '#FFFFFF', // Pure White cards
         accent: {
-          DEFAULT: '#D9795C', // Rust
+          DEFAULT: '#C05621', // Burnt Orange / Warm Wood accent
           foreground: '#FFFFFF',
         },
-        foreground: '#F5F5F5',
-        muted: '#A0A0A5',
-        border: '#3A3A3C',
+        foreground: '#1A202C', // Almost black for primary text
+        muted: '#718096', // Slate gray for secondary text
+        border: '#E2E8F0', // Clean borders
       },
     },
   },
