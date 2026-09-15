@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCustomers } from '../api/services';
-import { type Customer } from '../api/db';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Ruler, Truck } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type CalendarEvent = {
   id: string;
