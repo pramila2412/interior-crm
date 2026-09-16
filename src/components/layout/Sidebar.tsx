@@ -1,14 +1,27 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, UserSquare2, LogOut, Calendar } from 'lucide-react';
+import { 
+  LayoutDashboard, Users, UserSquare2, LogOut, Calendar, 
+  FolderKanban, CheckSquare, FileText, ShoppingCart, 
+  Hammer, Wrench, CreditCard, Package, BarChart3, Settings2
+} from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function Sidebar() {
   const navItems = [
     { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+    { label: 'Projects', path: '/admin/projects', icon: FolderKanban },
+    { label: 'Tasks', path: '/admin/tasks', icon: CheckSquare },
+    { label: 'Customers', path: '/admin/customers', icon: Users },
+    { label: 'Quotations', path: '/admin/quotations', icon: FileText },
+    { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
+    { label: 'Production', path: '/admin/production', icon: Hammer },
+    { label: 'Installations', path: '/admin/installations', icon: Wrench },
+    { label: 'Payments', path: '/admin/payments', icon: CreditCard },
+    { label: 'Inventory', path: '/admin/inventory', icon: Package },
+    { label: 'Reports', path: '/admin/reports', icon: BarChart3 },
     { label: 'Project Calendar', path: '/admin/calendar', icon: Calendar },
-    { label: 'Customers Tracking', path: '/admin/customers', icon: UserSquare2 },
-    { label: 'Manage Services', path: '/admin/services', icon: UserSquare2 },
-    { label: 'Staff Management', path: '/admin/users', icon: Users },
+    { label: 'Manage Web Services', path: '/admin/services', icon: Settings2 },
+    { label: 'Staff Management', path: '/admin/users', icon: UserSquare2 },
   ];
 
   return (

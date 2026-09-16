@@ -224,7 +224,6 @@ export function Customers() {
                       <SelectInput 
                         value={customer.status}
                         onChange={(e) => handleStatusChange(customer.id, e.target.value as CustomerStatus)}
-                        className="!bg-secondary/10 !text-secondary-foreground !border-secondary/20 !rounded-full !px-3 !py-1 !text-xs !font-medium"
                       >
                         {STATUSES.map(s => (
                           <option key={s} value={s}>{s}</option>

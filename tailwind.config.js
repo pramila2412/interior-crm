@@ -7,24 +7,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Semantic mapping for Classic Luxury Theme (Light & High Contrast)
+        // Semantic mapping for Modern Indigo & Emerald Theme (Light Mode Only)
         primary: {
-          DEFAULT: '#2D3748', // Deep Slate (Very high contrast)
-          foreground: '#FFFFFF', // White text on primary buttons
+          DEFAULT: '#1e3a8a', // Indigo 900
+          foreground: '#ffffff', // White text on primary buttons
         },
         secondary: {
-          DEFAULT: '#EDF2F7', // Soft grayish blue for backgrounds/hover
-          foreground: '#2D3748', // Deep Slate text on secondary
+          DEFAULT: '#f1f5f9', // Slate 100
+          foreground: '#0f172a', // Slate 900
         },
-        background: '#F8F9FA', // Crisp very light gray
-        card: '#FFFFFF', // Pure White cards
+        background: '#f8fafc', // Slate 50
+        card: '#ffffff', // White cards
         accent: {
-          DEFAULT: '#C05621', // Burnt Orange / Warm Wood accent
-          foreground: '#FFFFFF',
+          DEFAULT: '#10b981', // Emerald 500
+          foreground: '#ffffff',
         },
-        foreground: '#1A202C', // Almost black for primary text
-        muted: '#718096', // Slate gray for secondary text
-        border: '#E2E8F0', // Clean borders
+        foreground: '#0f172a', // Slate 900
+        muted: '#64748b', // Slate 500
+        border: '#e2e8f0', // Slate 200
+        ring: '#3b82f6', // Blue 500 for focus rings
       },
     },
   },

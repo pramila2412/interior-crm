@@ -29,12 +29,163 @@ export type Customer = {
   deliveryDate?: string;
 };
 
+export type ProjectStatus = 'Planning' | 'Execution' | 'Review' | 'Completed';
+
+export type Project = {
+  id: string;
+  projectName: string;
+  customerName: string;
+  category: string;
+  status: ProjectStatus;
+  startDate: string;
+  endDate: string;
+  budget: number;
+  progress: number; // 0 to 100
+};
+
+export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'REVIEW' | 'DONE';
+export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+
+export type Task = {
+  id: string;
+  title: string;
+  description?: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  dueDate?: string;
+  projectId?: string;
+  projectName?: string;
+  assigneeName?: string;
+};
+
+export type QuotationStatus = 'DRAFT' | 'SENT' | 'APPROVED' | 'REJECTED';
+
+export type LineItem = {
+  id: string;
+  item: string;
+  description: string;
+  qty: number;
+  rate: number;
+};
+
+export type Quotation = {
+  id: string;
+  projectId: string;
+  projectName: string;
+  customerName: string;
+  date: string;
+  status: QuotationStatus;
+  items: LineItem[];
+  subtotal: number;
+  tax: number;
+  total: number;
+};
+
+export type OrderStatus = 'PROCESSING' | 'READY' | 'DELIVERED';
+export type Order = {
+  id: string;
+  projectId: string;
+  projectName: string;
+  customerName: string;
+  date: string;
+  status: OrderStatus;
+  amount: number;
+  itemsCount: number;
+};
+
+export type ProductionStage = 'PROCUREMENT' | 'MEASUREMENT' | 'TAILORING' | 'READY';
+export type ProductionJob = {
+  id: string;
+  projectId: string;
+  projectName: string;
+  assigneeName?: string;
+  stage: ProductionStage;
+};
+
+export type InstallationStatus = 'SCHEDULED' | 'IN_PROGRESS' | 'COMPLETED';
+export type Installation = {
+  id: string;
+  projectId: string;
+  projectName: string;
+  customerName: string;
+  assigneeName: string;
+  scheduledDate: string;
+  status: InstallationStatus;
+};
+
 // Initial Mock Data
 export const mockUsers: User[] = [
   { id: 'u1', name: 'Alice Super', email: 'alice@furnish.com', role: 'Superadmin' },
   { id: 'u2', name: 'Bob Admin', email: 'bob@furnish.com', role: 'Admin' },
   { id: 'u3', name: 'Charlie Manager', email: 'charlie@furnish.com', role: 'Manager' },
   { id: 'u4', name: 'Diana Staff', email: 'diana@furnish.com', role: 'Staff' },
+];
+
+export const mockProjects: Project[] = [
+  { id: 'p1', projectName: 'Skyline Penthouse Redesign', customerName: 'John Doe', category: 'Full Home Interiors', status: 'Planning', startDate: '2026-09-20', endDate: '2026-11-15', budget: 45000, progress: 10 },
+  { id: 'p2', projectName: 'Smith Kitchen Upgrade', customerName: 'Jane Smith', category: 'Modular Kitchen', status: 'Execution', startDate: '2026-09-01', endDate: '2026-10-15', budget: 15000, progress: 45 },
+  { id: 'p3', projectName: 'Downtown Office Setup', customerName: 'Robert Brown', category: 'Commercial Spaces', status: 'Review', startDate: '2026-08-10', endDate: '2026-09-20', budget: 85000, progress: 90 },
+  { id: 'p4', projectName: 'Cozy Villa Living Room', customerName: 'Emily White', category: 'Luxury Furniture', status: 'Completed', startDate: '2026-07-01', endDate: '2026-08-15', budget: 12000, progress: 100 },
+];
+
+export const mockTasks: Task[] = [
+  { id: 't1', title: 'Finalize Floor Plans', description: 'Get approval from John Doe', status: 'TODO', priority: 'HIGH', dueDate: '2026-09-18', projectName: 'Skyline Penthouse Redesign', assigneeName: 'Alice Super' },
+  { id: 't2', title: 'Order Cabinet Materials', description: 'Order plywood and laminates', status: 'IN_PROGRESS', priority: 'URGENT', dueDate: '2026-09-15', projectName: 'Smith Kitchen Upgrade', assigneeName: 'Charlie Manager' },
+  { id: 't3', title: 'Site Inspection', description: 'Check electricals', status: 'REVIEW', priority: 'MEDIUM', dueDate: '2026-09-17', projectName: 'Downtown Office Setup', assigneeName: 'Bob Admin' },
+  { id: 't4', title: 'Deliver Sofa', description: 'Ensure safe transport', status: 'DONE', priority: 'LOW', dueDate: '2026-08-10', projectName: 'Cozy Villa Living Room', assigneeName: 'Diana Staff' },
+  { id: 't5', title: 'Client Meeting', status: 'TODO', priority: 'MEDIUM', dueDate: '2026-09-22', assigneeName: 'Alice Super' }
+];
+
+export const mockQuotations: Quotation[] = [
+  {
+    id: 'q1',
+    projectId: 'p1',
+    projectName: 'Skyline Penthouse Redesign',
+    customerName: 'John Doe',
+    date: '2026-09-12',
+    status: 'APPROVED',
+    items: [
+      { id: '1', item: 'Italian Marble Flooring', description: 'Premium grade for living room', qty: 500, rate: 450 },
+      { id: '2', item: 'False Ceiling', description: 'Gypsum with cove lighting', qty: 1, rate: 85000 }
+    ],
+    subtotal: 310000,
+    tax: 55800,
+    total: 365800
+  },
+  {
+    id: 'q2',
+    projectId: 'p2',
+    projectName: 'Smith Kitchen Upgrade',
+    customerName: 'Jane Smith',
+    date: '2026-09-15',
+    status: 'DRAFT',
+    items: [
+      { id: '1', item: 'Modular Cabinets', description: 'High gloss acrylic finish', qty: 1, rate: 120000 },
+      { id: '2', item: 'Quartz Countertop', description: 'White with grey veins', qty: 45, rate: 650 }
+    ],
+    subtotal: 149250,
+    tax: 26865,
+    total: 176115
+  }
+];
+
+export const mockOrders: Order[] = [
+  { id: 'ORD-001', projectId: 'p1', projectName: 'Skyline Penthouse Redesign', customerName: 'John Doe', date: '2026-09-12', status: 'PROCESSING', amount: 365800, itemsCount: 2 },
+  { id: 'ORD-002', projectId: 'p3', projectName: 'Downtown Office Setup', customerName: 'Robert Brown', date: '2026-08-15', status: 'READY', amount: 85000, itemsCount: 4 },
+  { id: 'ORD-003', projectId: 'p4', projectName: 'Cozy Villa Living Room', customerName: 'Emily White', date: '2026-07-05', status: 'DELIVERED', amount: 12000, itemsCount: 1 }
+];
+
+export const mockProductionJobs: ProductionJob[] = [
+  { id: 'PROD-001', projectId: 'p1', projectName: 'Skyline Penthouse Redesign', assigneeName: 'Alice Super', stage: 'PROCUREMENT' },
+  { id: 'PROD-002', projectId: 'p2', projectName: 'Smith Kitchen Upgrade', assigneeName: 'Charlie Manager', stage: 'MEASUREMENT' },
+  { id: 'PROD-003', projectId: 'p3', projectName: 'Downtown Office Setup', assigneeName: 'Bob Admin', stage: 'TAILORING' },
+  { id: 'PROD-004', projectId: 'p4', projectName: 'Cozy Villa Living Room', assigneeName: 'Diana Staff', stage: 'READY' }
+];
+
+export const mockInstallations: Installation[] = [
+  { id: 'INST-001', projectId: 'p3', projectName: 'Downtown Office Setup', customerName: 'Robert Brown', assigneeName: 'Diana Staff', scheduledDate: '2026-09-18T10:00', status: 'SCHEDULED' },
+  { id: 'INST-002', projectId: 'p2', projectName: 'Smith Kitchen Upgrade', customerName: 'Jane Smith', assigneeName: 'Charlie Manager', scheduledDate: '2026-09-15T09:00', status: 'IN_PROGRESS' },
+  { id: 'INST-003', projectId: 'p4', projectName: 'Cozy Villa Living Room', customerName: 'Emily White', assigneeName: 'Bob Admin', scheduledDate: '2026-08-12T14:00', status: 'COMPLETED' }
 ];
 
 export const mockCustomers: Customer[] = [
