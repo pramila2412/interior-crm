@@ -113,6 +113,30 @@ export type Installation = {
   status: InstallationStatus;
 };
 
+export type InventoryCategory = 'FABRIC' | 'HARDWARE' | 'ACCESSORY';
+export type InventoryItem = {
+  id: string;
+  sku: string;
+  name: string;
+  category: InventoryCategory;
+  stock: number;
+  minStock: number;
+  unit: string;
+};
+
+export type PaymentStatus = 'PENDING' | 'COMPLETED' | 'OVERDUE';
+export type PaymentType = 'ADVANCE' | 'FINAL';
+export type Payment = {
+  id: string;
+  projectId: string;
+  projectName: string;
+  customerName: string;
+  type: PaymentType;
+  amount: number;
+  dueDate: string;
+  status: PaymentStatus;
+};
+
 // Initial Mock Data
 export const mockUsers: User[] = [
   { id: 'u1', name: 'Alice Super', email: 'alice@furnish.com', role: 'Superadmin' },
@@ -186,6 +210,20 @@ export const mockInstallations: Installation[] = [
   { id: 'INST-001', projectId: 'p3', projectName: 'Downtown Office Setup', customerName: 'Robert Brown', assigneeName: 'Diana Staff', scheduledDate: '2026-09-18T10:00', status: 'SCHEDULED' },
   { id: 'INST-002', projectId: 'p2', projectName: 'Smith Kitchen Upgrade', customerName: 'Jane Smith', assigneeName: 'Charlie Manager', scheduledDate: '2026-09-15T09:00', status: 'IN_PROGRESS' },
   { id: 'INST-003', projectId: 'p4', projectName: 'Cozy Villa Living Room', customerName: 'Emily White', assigneeName: 'Bob Admin', scheduledDate: '2026-08-12T14:00', status: 'COMPLETED' }
+];
+
+export const mockInventory: InventoryItem[] = [
+  { id: 'INV-001', sku: 'FAB-VEL-BLU', name: 'Premium Velvet Blue', category: 'FABRIC', stock: 120, minStock: 50, unit: 'meters' },
+  { id: 'INV-002', sku: 'HRD-RLR-01', name: 'Standard Roller Blind Mechanism', category: 'HARDWARE', stock: 15, minStock: 20, unit: 'units' },
+  { id: 'INV-003', sku: 'ACC-TIE-GLD', name: 'Gold Tassel Tiebacks', category: 'ACCESSORY', stock: 5, minStock: 10, unit: 'pairs' },
+  { id: 'INV-004', sku: 'FAB-LIN-WHT', name: 'Sheer Linen White', category: 'FABRIC', stock: 350, minStock: 100, unit: 'meters' }
+];
+
+export const mockPayments: Payment[] = [
+  { id: 'PAY-001', projectId: 'p1', projectName: 'Luxury Villa Renovation', customerName: 'Alice Smith', type: 'ADVANCE', amount: 50000, dueDate: '2026-08-01', status: 'COMPLETED' },
+  { id: 'PAY-002', projectId: 'p2', projectName: 'Smith Kitchen Upgrade', customerName: 'Jane Smith', type: 'ADVANCE', amount: 150000, dueDate: '2026-09-01', status: 'COMPLETED' },
+  { id: 'PAY-003', projectId: 'p3', projectName: 'Downtown Office Setup', customerName: 'Robert Brown', type: 'FINAL', amount: 300000, dueDate: '2026-09-15', status: 'PENDING' },
+  { id: 'PAY-004', projectId: 'p4', projectName: 'Cozy Villa Living Room', customerName: 'Emily White', type: 'FINAL', amount: 80000, dueDate: '2026-09-10', status: 'OVERDUE' },
 ];
 
 export const mockCustomers: Customer[] = [

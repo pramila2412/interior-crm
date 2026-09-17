@@ -17,6 +17,9 @@ import { Quotations } from './pages/Quotations';
 import { Orders } from './pages/Orders';
 import { Production } from './pages/Production';
 import { Installations } from './pages/Installations';
+import { Inventory } from './pages/Inventory';
+import { Reports } from './pages/Reports';
+import { Payments } from './pages/Payments';
 
 function App() {
   return (
@@ -36,13 +39,13 @@ function App() {
           <Route path="orders" element={<Orders />} />
           <Route path="production" element={<Production />} />
           <Route path="installations" element={<Installations />} />
-          <Route path="payments" element={<PlaceholderPage title="Project Payments" />} />
+          <Route path="payments" element={<Payments />} />
           <Route path="calendar" element={<CalendarView />} />
-          <Route path="inventory" element={<PlaceholderPage title="Inventory Management" />} />
-          <Route path="reports" element={<PlaceholderPage title="Analytics & Reports" />} />
-          
-          <Route path="services" element={<ServicesManagement />} />
+          <Route path="inventory" element={<Inventory />} />
           <Route path="users" element={<Users />} />
+          <Route path="services" element={<ServicesManagement />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="settings" element={<PlaceholderPage title="System Settings" />} />
         </Route>
       </Routes>
     </BrowserRouter>

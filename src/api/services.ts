@@ -1,5 +1,5 @@
-import { mockCustomers, mockUsers, publicServices, mockProjects, mockTasks, mockQuotations, mockOrders, mockProductionJobs, mockInstallations } from './db';
-import type { Customer, CustomerStatus, User, PublicService, Project, ProjectStatus, Task, TaskStatus, Quotation, QuotationStatus, Order, OrderStatus, ProductionJob, ProductionStage, Installation, InstallationStatus } from './db';
+import { mockCustomers, mockUsers, publicServices, mockProjects, mockTasks, mockQuotations, mockOrders, mockProductionJobs, mockInstallations, mockInventory, mockPayments } from './db';
+import type { Customer, CustomerStatus, User, PublicService, Project, ProjectStatus, Task, TaskStatus, Quotation, QuotationStatus, Order, OrderStatus, ProductionJob, ProductionStage, Installation, InstallationStatus, InventoryItem, Payment, PaymentStatus } from './db';
 
 // Simulate network delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -227,5 +227,50 @@ export const updateInstallationStatus = async (id: string, status: InstallationS
   const index = installationsDb.findIndex(i => i.id === id);
   if (index !== -1) {
     installationsDb[index].status = status;
+  }
+};
+
+let inventoryDb = [...mockInventory];
+
+export const getInventory = async (): Promise<InventoryItem[]> => {
+  await delay(300);
+  return [...inventoryDb];
+};
+
+export const addInventoryItem = async (item: Omit<InventoryItem, 'id'>): Promise<void> => {
+  await delay(300);
+  const newItem: InventoryItem = {
+    ...item,
+    id: `INV-${Date.now()}`
+  };
+  inventoryDb = [newItem, ...inventoryDb];
+};
+
+let paymentsDb = [...mockPayments];
+
+export const getPayments = async (): Promise<Payment[]> => {
+  await delay(300);
+  return [...paymentsDb];
+};
+
+export const addPayment = async (payment: Omit<Payment, 'id' | 'projectName' | 'customerName'>): Promise<void> => {
+  await delay(300);
+  const project = projectsDb.find(p => p.id === payment.projectId);
+  if (!project) throw new Error("Project not found");
+  
+  const newPayment: Payment = {
+    ...payment,
+    id: `PAY-${Date.now()}`,
+    projectName: project.projectName,
+    customerName: project.customerName
+  };
+  paymentsDb = [newPayment, ...paymentsDb];
+};
+
+export const updatePaymentStatus = async (id: string, status: PaymentStatus): Promise<void> => {
+  await delay(300);
+  const index = paymentsDb.findIndex(p => p.id === id);
+  if (index !== -1) {
+    paymentsDb[index].status = status;
   }
 };
