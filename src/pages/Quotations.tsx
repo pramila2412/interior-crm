@@ -91,26 +91,29 @@ export function Quotations() {
 
   return (
     <div className="space-y-6 flex flex-col h-full relative">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="flex items-center gap-3">
           {view === 'builder' && (
             <button onClick={() => setView('list')} className="p-2 bg-card border border-border rounded-lg hover:bg-secondary transition-colors">
               <ArrowLeft className="w-5 h-5 text-foreground" />
             </button>
           )}
-          <h1 className="text-3xl font-semibold text-primary">
-            {view === 'list' ? 'Quotations & Estimates' : (editingQuoteId ? 'Edit Quotation' : 'New Quotation')}
-          </h1>
+          <div>
+            <h1 className="text-3xl font-semibold text-primary">{view === 'builder' ? (editingQuoteId ? 'Edit Quotation' : 'New Quotation') : 'Quotations'}</h1>
+            <p className="text-sm text-muted mt-1">{view === 'builder' ? 'Build and price out interior requirements' : 'Manage pricing and proposals'}</p>
+          </div>
         </div>
         
         {view === 'list' && (
-          <button 
-            onClick={handleCreateNew}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium shadow-sm"
-          >
-            <Plus className="w-4 h-4" />
-            Create Quotation
-          </button>
+          <div className="flex flex-wrap items-center gap-4">
+            <button 
+              onClick={handleCreateNew}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium shadow-sm"
+            >
+              <Plus className="w-4 h-4" />
+              Create Quotation
+            </button>
+          </div>
         )}
       </div>
 

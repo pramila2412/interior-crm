@@ -113,9 +113,9 @@ export function Projects() {
 
   return (
     <div className="space-y-6 flex flex-col h-full relative">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h1 className="text-3xl font-semibold text-primary">Projects Management</h1>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <button 
             onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium shadow-sm"
@@ -130,14 +130,14 @@ export function Projects() {
               className={`p-2 rounded-md transition-colors flex items-center gap-2 text-sm font-medium ${view === 'kanban' ? 'bg-primary text-primary-foreground shadow' : 'text-muted hover:text-foreground'}`}
             >
               <KanbanSquare className="w-4 h-4" />
-              Board
+              <span className="hidden sm:inline">Board</span>
             </button>
             <button 
               onClick={() => setView('list')}
               className={`p-2 rounded-md transition-colors flex items-center gap-2 text-sm font-medium ${view === 'list' ? 'bg-primary text-primary-foreground shadow' : 'text-muted hover:text-foreground'}`}
             >
               <LayoutList className="w-4 h-4" />
-              List
+              <span className="hidden sm:inline">List</span>
             </button>
           </div>
         </div>
@@ -147,9 +147,9 @@ export function Projects() {
         <div className="text-center py-10 text-muted">Loading projects...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="grid grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)]">
+          <div className="flex overflow-x-auto xl:grid xl:grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)] snap-x">
             {STATUSES.map(status => (
-              <div key={status} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50">
+              <div key={status} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50 min-w-[280px] w-[85vw] xl:w-auto snap-center shrink-0">
                 <div className="flex items-center justify-between mb-4 px-1">
                   <h3 className="font-semibold text-foreground">{status}</h3>
                   <span className="bg-background text-muted text-xs font-bold px-2 py-1 rounded-full shadow-sm">

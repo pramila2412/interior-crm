@@ -115,15 +115,19 @@ export function Customers() {
 
   return (
     <div className="space-y-6 flex flex-col h-full relative">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-semibold text-primary">Customers Tracking</h1>
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-semibold text-primary">Customers Pipeline</h1>
+          <p className="text-sm text-muted mt-1">Track leads from enquiry to installation</p>
+        </div>
+        
+        <div className="flex flex-wrap items-center gap-4">
           <button 
             onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium shadow-sm"
           >
             <Plus className="w-4 h-4" />
-            Add Customer
+            New Customer
           </button>
           
           <div className="flex bg-card border border-border rounded-lg p-1">
@@ -132,14 +136,14 @@ export function Customers() {
               className={`p-2 rounded-md transition-colors flex items-center gap-2 text-sm font-medium ${view === 'kanban' ? 'bg-primary text-primary-foreground shadow' : 'text-muted hover:text-foreground'}`}
             >
               <KanbanSquare className="w-4 h-4" />
-              Board
+              <span className="hidden sm:inline">Board</span>
             </button>
             <button 
               onClick={() => setView('list')}
               className={`p-2 rounded-md transition-colors flex items-center gap-2 text-sm font-medium ${view === 'list' ? 'bg-primary text-primary-foreground shadow' : 'text-muted hover:text-foreground'}`}
             >
               <LayoutList className="w-4 h-4" />
-              List
+              <span className="hidden sm:inline">List</span>
             </button>
           </div>
         </div>
@@ -149,9 +153,9 @@ export function Customers() {
         <div className="text-center py-10 text-muted">Loading customers...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
+          <div className="flex overflow-x-auto xl:grid xl:grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)] snap-x">
             {STATUSES.map(status => (
-              <div key={status} className="flex flex-col h-full">
+              <div key={status} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50 min-w-[280px] w-[85vw] xl:w-auto snap-center shrink-0">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-semibold text-foreground text-sm uppercase tracking-wider">{status}</h3>
                   <span className="bg-background border border-border text-muted text-xs font-bold px-2 py-0.5 rounded-full">

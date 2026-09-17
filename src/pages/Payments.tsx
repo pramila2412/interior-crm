@@ -72,7 +72,7 @@ export function Payments() {
 
   return (
     <div className="space-y-6 flex flex-col h-full relative pb-10">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-semibold text-primary">Project Payments</h1>
           <p className="text-sm text-muted mt-1">Track customer advances and final collections per project</p>

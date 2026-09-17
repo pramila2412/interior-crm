@@ -60,11 +60,11 @@ export function Production() {
   );
 
   return (
-    <div className="space-y-6 flex flex-col h-full relative">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6 flex flex-col h-full relative pb-10">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-semibold text-primary">Production Floor</h1>
-          <p className="text-sm text-muted mt-1">Track manufacturing, tailoring, and assembly</p>
+          <p className="text-sm text-muted mt-1">Track manufacturing and dispatch progress</p>
         </div>
       </div>
 
@@ -72,11 +72,11 @@ export function Production() {
         <div className="text-center py-10 text-muted">Loading production jobs...</div>
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="grid grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)]">
+          <div className="flex overflow-x-auto xl:grid xl:grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)] snap-x">
             {STAGES.map(column => {
               const Icon = column.icon;
               return (
-                <div key={column.id} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50">
+                <div key={column.id} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50 min-w-[280px] w-[85vw] xl:w-auto snap-center shrink-0">
                   <div className="flex items-center justify-between mb-4 px-1">
                     <h3 className="font-semibold text-foreground text-sm flex items-center gap-2">
                       <Icon className={`w-4 h-4 ${column.color}`} />

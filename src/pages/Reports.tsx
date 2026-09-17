@@ -16,13 +16,13 @@ export function Reports() {
 
   return (
     <div className="space-y-6 flex flex-col h-full relative">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-semibold text-primary">Reports & Analytics</h1>
           <p className="text-sm text-muted mt-1">Deep dive into sales, performance, and revenue metrics</p>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <button className="flex items-center gap-2 px-4 py-2 bg-card border border-border text-foreground rounded-lg hover:bg-secondary/50 transition-colors text-sm font-medium shadow-sm">
             <CalendarIcon className="w-4 h-4 text-muted" />
             {dateRange}

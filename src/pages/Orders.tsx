@@ -40,10 +40,10 @@ export function Orders() {
 
   return (
     <div className="space-y-6 flex flex-col h-full relative">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-semibold text-primary">Orders</h1>
-          <p className="text-sm text-muted mt-1">Manage approved quotations and purchase orders</p>
+          <h1 className="text-3xl font-semibold text-primary">Purchase Orders</h1>
+          <p className="text-sm text-muted mt-1">Manage material and fabrication orders</p>
         </div>
       </div>
 
