@@ -32,8 +32,12 @@ export function Payments() {
 
   const handleRecordPayment = async (e: React.FormEvent) => {
     e.preventDefault();
+    const project = projects.find(p => p.id === projectId);
+    
     await addPayment({
       projectId,
+      projectName: project ? project.projectName : 'Unknown Project',
+      customerName: project ? project.customerName : 'Unknown Customer',
       type,
       amount: parseInt(amount, 10) || 0,
       dueDate,
