@@ -1,276 +1,98 @@
-import { mockCustomers, mockUsers, publicServices, mockProjects, mockTasks, mockQuotations, mockOrders, mockProductionJobs, mockInstallations, mockInventory, mockPayments } from './db';
 import type { Customer, CustomerStatus, User, PublicService, Project, ProjectStatus, Task, TaskStatus, Quotation, QuotationStatus, Order, OrderStatus, ProductionJob, ProductionStage, Installation, InstallationStatus, InventoryItem, Payment, PaymentStatus } from './db';
 
-// Simulate network delay
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-let users = [...mockUsers];
-let customers = [...mockCustomers];
-let servicesList = [...publicServices];
-let projectsDb = [...mockProjects];
-
-export const getPublicServices = async (): Promise<PublicService[]> => {
-  await delay(300);
-  return [...servicesList];
+const fetchAPI = async (endpoint: string, options: RequestInit = {}) => {
+  const res = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+  if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+  return res.json();
 };
 
-export const addPublicService = async (service: Omit<PublicService, 'id'>): Promise<PublicService> => {
-  await delay(300);
-  const newService = { ...service, id: `s${Date.now()}` };
-  servicesList.push(newService);
-  return newService;
-};
+export const getPublicServices = async (): Promise<PublicService[]> => [];
+export const addPublicService = async (_service: Omit<PublicService, 'id'>): Promise<PublicService> => ({} as PublicService);
+export const deletePublicService = async (_id: string): Promise<void> => {};
 
-export const deletePublicService = async (id: string): Promise<void> => {
-  await delay(300);
-  servicesList = servicesList.filter(s => s.id !== id);
-};
+export const getUsers = async (): Promise<User[]> => fetchAPI('/users');
+export const addUser = async (user: Omit<User, 'id'>): Promise<User> => fetchAPI('/users', { method: 'POST', body: JSON.stringify(user) });
+export const deleteUser = async (id: string): Promise<void> => fetchAPI(`/users/${id}`, { method: 'DELETE' });
 
-export const getUsers = async (): Promise<User[]> => {
-  await delay(300);
-  return [...users];
-};
-
-export const addUser = async (user: Omit<User, 'id'>): Promise<User> => {
-  await delay(300);
-  const newUser = { ...user, id: `u${Date.now()}` };
-  users.push(newUser);
-  return newUser;
-};
-
-export const deleteUser = async (id: string): Promise<void> => {
-  await delay(300);
-  users = users.filter(u => u.id !== id);
-};
-
-export const getCustomers = async (): Promise<Customer[]> => {
-  await delay(300);
-  return [...customers];
-};
-
-export const getCustomerById = async (id: string): Promise<Customer | undefined> => {
-  await delay(300);
-  return customers.find(c => c.id === id);
-};
-
-export const updateCustomerStatus = async (id: string, newStatus: CustomerStatus): Promise<Customer | undefined> => {
-  await delay(300);
-  const index = customers.findIndex(c => c.id === id);
-  if (index !== -1) {
-    customers[index].status = newStatus;
-    return customers[index];
-  }
-  return undefined;
-};
-
-export const updateCustomerDetails = async (id: string, updates: Partial<Customer>): Promise<Customer | undefined> => {
-  await delay(300);
-  const index = customers.findIndex(c => c.id === id);
-  if (index !== -1) {
-    customers[index] = { ...customers[index], ...updates };
-    return customers[index];
-  }
-  return undefined;
-};
-
+export const getCustomers = async (): Promise<Customer[]> => fetchAPI('/customers');
+export const getCustomerById = async (id: string): Promise<Customer | undefined> => fetchAPI(`/customers/${id}`);
+export const updateCustomerStatus = async (id: string, newStatus: CustomerStatus): Promise<Customer | undefined> => fetchAPI(`/customers/${id}`, { method: 'PATCH', body: JSON.stringify({ status: newStatus }) });
+export const updateCustomerDetails = async (id: string, updates: Partial<Customer>): Promise<Customer | undefined> => fetchAPI(`/customers/${id}`, { method: 'PATCH', body: JSON.stringify(updates) });
 export const addCustomer = async (customer: Omit<Customer, 'id' | 'dateAdded'>): Promise<Customer> => {
-  await delay(300);
-  const newCustomer = { 
-    ...customer, 
-    id: `c${Date.now()}`,
-    dateAdded: new Date().toISOString().split('T')[0]
-  };
-  customers.push(newCustomer as Customer);
-  return newCustomer as Customer;
+  return fetchAPI('/customers', { 
+    method: 'POST', 
+    body: JSON.stringify({ ...customer, dateAdded: new Date().toISOString().split('T')[0] }) 
+  });
 };
 
-export const getProjects = async (): Promise<Project[]> => {
-  await delay(300);
-  return [...projectsDb];
-};
-
-export const getProjectById = async (id: string): Promise<Project | undefined> => {
-  await delay(300);
-  return projectsDb.find(p => p.id === id);
-};
-
+export const getProjects = async (): Promise<Project[]> => fetchAPI('/projects');
+export const getProjectById = async (id: string): Promise<Project | undefined> => fetchAPI(`/projects/${id}`);
 export const updateProjectStatus = async (id: string, status: ProjectStatus): Promise<void> => {
-  await delay(300);
-  const index = projectsDb.findIndex(p => p.id === id);
-  if (index !== -1) {
-    projectsDb[index].status = status;
-    if (status === 'Completed') {
-      projectsDb[index].progress = 100;
-    }
-  }
+  await fetchAPI(`/projects/${id}`, { method: 'PATCH', body: JSON.stringify({ status, progress: status === 'Completed' ? 100 : undefined }) });
 };
-
 export const addProject = async (project: Omit<Project, 'id' | 'progress'>): Promise<void> => {
-  await delay(300);
-  const newProject: Project = {
-    ...project,
-    id: `p${Date.now()}`,
-    progress: project.status === 'Completed' ? 100 : 0
-  };
-  projectsDb = [newProject, ...projectsDb];
+  await fetchAPI('/projects', { method: 'POST', body: JSON.stringify({ ...project, progress: 0 }) });
 };
 
-let tasksDb = [...mockTasks];
-
-export const getTasks = async (): Promise<Task[]> => {
-  await delay(300);
-  return [...tasksDb];
-};
-
-export const getTaskById = async (id: string): Promise<Task | undefined> => {
-  await delay(300);
-  return tasksDb.find(t => t.id === id);
-};
-
+export const getTasks = async (): Promise<Task[]> => fetchAPI('/tasks');
+export const getTaskById = async (id: string): Promise<Task | undefined> => fetchAPI(`/tasks/${id}`);
 export const updateTaskStatus = async (id: string, status: TaskStatus): Promise<void> => {
-  await delay(300);
-  const index = tasksDb.findIndex(t => t.id === id);
-  if (index !== -1) {
-    tasksDb[index].status = status;
-  }
+  await fetchAPI(`/tasks/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
 };
-
 export const addTask = async (task: Omit<Task, 'id'>): Promise<void> => {
-  await delay(300);
-  const newTask: Task = {
-    ...task,
-    id: `t${Date.now()}`
-  };
-  tasksDb = [newTask, ...tasksDb];
+  await fetchAPI('/tasks', { method: 'POST', body: JSON.stringify(task) });
 };
 
-let quotationsDb = [...mockQuotations];
-
-export const getQuotations = async (): Promise<Quotation[]> => {
-  await delay(300);
-  return [...quotationsDb];
-};
-
-export const updateQuotationStatus = async (id: string, status: QuotationStatus): Promise<void> => {
-  await delay(300);
-  const index = quotationsDb.findIndex(q => q.id === id);
-  if (index !== -1) {
-    quotationsDb[index].status = status;
-  }
-};
-
+export const getQuotations = async (): Promise<Quotation[]> => fetchAPI('/quotations');
+export const getQuotationById = async (id: string): Promise<Quotation | undefined> => fetchAPI(`/quotations/${id}`);
 export const addQuotation = async (quotation: Omit<Quotation, 'id'>): Promise<void> => {
-  await delay(300);
-  const newQuotation: Quotation = {
-    ...quotation,
-    id: `q${Date.now()}`
-  };
-  quotationsDb = [newQuotation, ...quotationsDb];
+  await fetchAPI('/quotations', { method: 'POST', body: JSON.stringify(quotation) });
 };
-
 export const updateQuotation = async (id: string, updates: Partial<Quotation>): Promise<void> => {
-  await delay(300);
-  const index = quotationsDb.findIndex(q => q.id === id);
-  if (index !== -1) {
-    quotationsDb[index] = { ...quotationsDb[index], ...updates };
-  }
+  await fetchAPI(`/quotations/${id}`, { method: 'PATCH', body: JSON.stringify(updates) });
+};
+export const updateQuotationStatus = async (id: string, status: QuotationStatus): Promise<void> => {
+  await fetchAPI(`/quotations/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
 };
 
-let ordersDb = [...mockOrders];
-
-export const getOrders = async (): Promise<Order[]> => {
-  await delay(300);
-  return [...ordersDb];
+export const getOrders = async (): Promise<Order[]> => fetchAPI('/orders');
+export const addOrder = async (order: Omit<Order, 'id'>): Promise<void> => {
+  await fetchAPI('/orders', { method: 'POST', body: JSON.stringify(order) });
 };
-
 export const updateOrderStatus = async (id: string, status: OrderStatus): Promise<void> => {
-  await delay(300);
-  const index = ordersDb.findIndex(o => o.id === id);
-  if (index !== -1) {
-    ordersDb[index].status = status;
-  }
+  await fetchAPI(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
 };
 
-let productionJobsDb = [...mockProductionJobs];
-
-export const getProductionJobs = async (): Promise<ProductionJob[]> => {
-  await delay(300);
-  return [...productionJobsDb];
-};
-
+export const getProductionJobs = async (): Promise<ProductionJob[]> => fetchAPI('/production');
 export const updateProductionStage = async (id: string, stage: ProductionStage): Promise<void> => {
-  await delay(300);
-  const index = productionJobsDb.findIndex(j => j.id === id);
-  if (index !== -1) {
-    productionJobsDb[index].stage = stage;
-  }
+  await fetchAPI(`/production/${id}`, { method: 'PATCH', body: JSON.stringify({ stage }) });
 };
 
-let installationsDb = [...mockInstallations];
-
-export const getInstallations = async (): Promise<Installation[]> => {
-  await delay(300);
-  return [...installationsDb];
-};
-
+export const getInstallations = async (): Promise<Installation[]> => fetchAPI('/installations');
 export const addInstallation = async (installation: Omit<Installation, 'id'>): Promise<void> => {
-  await delay(300);
-  const newInstallation: Installation = {
-    ...installation,
-    id: `INST-${Date.now()}`
-  };
-  installationsDb = [newInstallation, ...installationsDb];
+  await fetchAPI('/installations', { method: 'POST', body: JSON.stringify(installation) });
 };
-
 export const updateInstallationStatus = async (id: string, status: InstallationStatus): Promise<void> => {
-  await delay(300);
-  const index = installationsDb.findIndex(i => i.id === id);
-  if (index !== -1) {
-    installationsDb[index].status = status;
-  }
+  await fetchAPI(`/installations/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
 };
 
-let inventoryDb = [...mockInventory];
-
-export const getInventory = async (): Promise<InventoryItem[]> => {
-  await delay(300);
-  return [...inventoryDb];
-};
-
+export const getInventory = async (): Promise<InventoryItem[]> => fetchAPI('/inventory');
 export const addInventoryItem = async (item: Omit<InventoryItem, 'id'>): Promise<void> => {
-  await delay(300);
-  const newItem: InventoryItem = {
-    ...item,
-    id: `INV-${Date.now()}`
-  };
-  inventoryDb = [newItem, ...inventoryDb];
+  await fetchAPI('/inventory', { method: 'POST', body: JSON.stringify(item) });
 };
 
-let paymentsDb = [...mockPayments];
-
-export const getPayments = async (): Promise<Payment[]> => {
-  await delay(300);
-  return [...paymentsDb];
+export const getPayments = async (): Promise<Payment[]> => fetchAPI('/payments');
+export const addPayment = async (payment: Omit<Payment, 'id'>): Promise<void> => {
+  await fetchAPI('/payments', { method: 'POST', body: JSON.stringify(payment) });
 };
-
-export const addPayment = async (payment: Omit<Payment, 'id' | 'projectName' | 'customerName'>): Promise<void> => {
-  await delay(300);
-  const project = projectsDb.find(p => p.id === payment.projectId);
-  if (!project) throw new Error("Project not found");
-  
-  const newPayment: Payment = {
-    ...payment,
-    id: `PAY-${Date.now()}`,
-    projectName: project.projectName,
-    customerName: project.customerName
-  };
-  paymentsDb = [newPayment, ...paymentsDb];
-};
-
 export const updatePaymentStatus = async (id: string, status: PaymentStatus): Promise<void> => {
-  await delay(300);
-  const index = paymentsDb.findIndex(p => p.id === id);
-  if (index !== -1) {
-    paymentsDb[index].status = status;
-  }
+  await fetchAPI(`/payments/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
 };
