@@ -19,9 +19,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error('MongoDB connection error:', err));
+} else {
+  console.error('CRITICAL: MONGODB_URI environment variable is missing!');
+}
+
+// Root Health Check Route
+app.get('/', (req, res) => {
+  res.send('Interior CRM API is running!');
+});
 
 // Generic Routes Factory
 const createRoutes = (Model, path) => {
