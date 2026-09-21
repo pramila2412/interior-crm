@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { getCalendarEvents, addCalendarEvent, updateCalendarEvent, deleteCalendarEvent } from '../api/services';
-import { type CalendarEvent } from '../api/db';
+import { getCalendarEvents, addCalendarEvent, updateCalendarEvent, deleteCalendarEvent, getProjects } from '../api/services';
+import { type CalendarEvent, type Project } from '../api/db';
 import { ChevronLeft, ChevronRight, Plus, X, Trash2 } from 'lucide-react';
+import { SelectInput } from '../components/ui/SelectInput';
 
 export function CalendarView() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -17,6 +19,7 @@ export function CalendarView() {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [type, setType] = useState<'meeting' | 'installation' | 'measurement' | 'deadline'>('meeting');
+  const [projectId, setProjectId] = useState('');
 
   useEffect(() => {
     loadEvents();
@@ -24,8 +27,9 @@ export function CalendarView() {
 
   const loadEvents = async () => {
     setLoading(true);
-    const data = await getCalendarEvents();
-    setEvents(data);
+    const [eventsData, projectsData] = await Promise.all([getCalendarEvents(), getProjects()]);
+    setEvents(eventsData);
+    setProjects(projectsData);
     setLoading(false);
   };
 
@@ -39,6 +43,7 @@ export function CalendarView() {
     setDescription('');
     setDate(selectedDate ? selectedDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
     setType('meeting');
+    setProjectId('');
     setIsModalOpen(true);
   };
 
@@ -49,15 +54,16 @@ export function CalendarView() {
     setDescription(event.description || '');
     setDate(new Date(event.date).toISOString().split('T')[0]);
     setType(event.type);
+    setProjectId(event.projectId || '');
     setIsModalOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingEvent) {
-      await updateCalendarEvent(editingEvent.id, { title, description, date: new Date(date).toISOString(), type });
+      await updateCalendarEvent(editingEvent.id, { title, description, date: new Date(date).toISOString(), type, projectId });
     } else {
-      await addCalendarEvent({ title, description, date: new Date(date).toISOString(), type });
+      await addCalendarEvent({ title, description, date: new Date(date).toISOString(), type, projectId });
     }
     setIsModalOpen(false);
     await loadEvents();
@@ -220,6 +226,18 @@ export function CalendarView() {
                     <option value="installation">Installation</option>
                     <option value="deadline">Project Deadline</option>
                   </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Link to Project (Optional)</label>
+                  <SelectInput 
+                    value={projectId}
+                    onChange={e => setProjectId(e.target.value)}
+                  >
+                    <option value="">None</option>
+                    {projects.map(p => (
+                      <option key={p.id} value={p.id}>{p.projectName}</option>
+                    ))}
+                  </SelectInput>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-muted mb-1">Description (Optional)</label>
