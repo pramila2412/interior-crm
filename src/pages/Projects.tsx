@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable, type DropResult } from '@hello-pangea/dnd';
-import { getProjects, updateProjectStatus, addProject } from '../api/services';
-import { type Project, type ProjectStatus } from '../api/db';
+import { getProjects, updateProjectStatus, addProject, getPublicServices } from '../api/services';
+import { type Project, type ProjectStatus, type PublicService } from '../api/db';
 import { LayoutList, KanbanSquare, Plus, X, IndianRupee } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
@@ -11,6 +11,7 @@ const STATUSES: ProjectStatus[] = ['Planning', 'Execution', 'Review', 'Completed
 export function Projects() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [services, setServices] = useState<PublicService[]>([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<'kanban' | 'list'>('kanban');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,8 +28,9 @@ export function Projects() {
 
   const loadProjects = async () => {
     setLoading(true);
-    const data = await getProjects();
+    const [data, servicesData] = await Promise.all([getProjects(), getPublicServices()]);
     setProjects(data);
+    setServices(servicesData);
     setLoading(false);
   };
 
@@ -278,10 +280,9 @@ export function Projects() {
                     onChange={e => setCategory(e.target.value)}
                   >
                     <option value="">Select category...</option>
-                    <option value="Full Home Interiors">Full Home Interiors</option>
-                    <option value="Modular Kitchen">Modular Kitchen</option>
-                    <option value="Luxury Furniture">Luxury Furniture</option>
-                    <option value="Commercial Spaces">Commercial Spaces</option>
+                    {services.map(s => (
+                      <option key={s.id} value={s.title}>{s.title}</option>
+                    ))}
                   </SelectInput>
                 </div>
                 <div>
