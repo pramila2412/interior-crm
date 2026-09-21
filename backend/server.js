@@ -82,8 +82,70 @@ const createRoutes = (Model, path) => {
   // PATCH partial update
   app.patch(`${path}/:id`, async (req, res) => {
     try {
+      const oldDoc = await Model.findById(req.params.id);
       const updated = await Model.findByIdAndUpdate(req.params.id, req.body, { new: true });
       if (!updated) return res.status(404).json({ error: 'Not found' });
+
+      // BUSINESS LOGIC PIPELINE
+      if (path === '/api/quotations' && oldDoc.status !== 'ACCEPTED' && updated.status === 'ACCEPTED') {
+        // Automatically create a Draft Purchase Order
+        const Order = require('./models/Order');
+        await Order.create({
+          poNumber: `PO-${Date.now().toString().slice(-6)}`,
+          projectId: updated.projectId,
+          projectName: updated.projectName,
+          vendor: 'Pending Assignment',
+          date: new Date().toISOString().split('T')[0],
+          amount: updated.total * 0.4, // Estimate 40% material cost
+          status: 'DRAFT',
+          expectedDelivery: new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0]
+        });
+      }
+
+      if (path === '/api/orders' && oldDoc.status !== 'ISSUED' && updated.status === 'ISSUED') {
+        // Automatically push to Production
+        const ProductionJob = require('./models/ProductionJob');
+        const existingJob = await ProductionJob.findOne({ projectId: updated.projectId });
+        if (!existingJob) {
+          await ProductionJob.create({
+            jobName: `${updated.projectName} Fabrication`,
+            projectId: updated.projectId,
+            projectName: updated.projectName,
+            customerName: updated.customerName || 'Unknown Customer',
+            stage: 'PROCUREMENT',
+            priority: 'High',
+            startDate: new Date().toISOString().split('T')[0],
+            deadline: new Date(Date.now() + 14*24*60*60*1000).toISOString().split('T')[0]
+          });
+        }
+      }
+
+      if (path === '/api/production' && oldDoc.stage !== 'READY' && updated.stage === 'READY') {
+        // Automatically push to Installation Calendar
+        const CalendarEvent = require('./models/CalendarEvent');
+        const Installation = require('./models/Installation');
+        
+        await Installation.create({
+          projectId: updated.projectId,
+          projectName: updated.projectName,
+          customerName: updated.customerName,
+          status: 'SCHEDULED',
+          scheduledDate: new Date(Date.now() + 2*24*60*60*1000).toISOString().split('T')[0],
+          completedDate: '',
+          assignedTeam: 'Unassigned',
+          notes: 'Auto-generated from Production completion.'
+        });
+
+        await CalendarEvent.create({
+          title: `Installation: ${updated.projectName}`,
+          description: `Automatically scheduled installation for ${updated.customerName}`,
+          date: new Date(Date.now() + 2*24*60*60*1000).toISOString(),
+          type: 'installation',
+          projectId: updated.projectId,
+          customerId: ''
+        });
+      }
+
       res.json(updated);
     } catch (err) {
       res.status(400).json({ error: err.message });
