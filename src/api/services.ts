@@ -1,6 +1,9 @@
 import type { Customer, CustomerStatus, User, PublicService, Project, ProjectStatus, Task, TaskStatus, Quotation, QuotationStatus, Order, OrderStatus, ProductionJob, ProductionStage, Installation, InstallationStatus, InventoryItem, Payment, PaymentStatus } from './db';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Use Render backend in production, fallback to localhost for local development
+const API_URL = import.meta.env.PROD 
+  ? 'https://interior-crm-g0k5.onrender.com/api' 
+  : 'http://localhost:5000/api';
 
 const fetchAPI = async (endpoint: string, options: RequestInit = {}) => {
   const res = await fetch(`${API_URL}${endpoint}`, {
