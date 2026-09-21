@@ -14,6 +14,7 @@ const ProductionJob = require('./models/ProductionJob');
 const Installation = require('./models/Installation');
 const InventoryItem = require('./models/InventoryItem');
 const Payment = require('./models/Payment');
+const PublicService = require('./models/PublicService');
 
 const app = express();
 app.use(cors());
@@ -111,6 +112,7 @@ createRoutes(ProductionJob, '/api/production');
 createRoutes(Installation, '/api/installations');
 createRoutes(InventoryItem, '/api/inventory');
 createRoutes(Payment, '/api/payments');
+createRoutes(PublicService, '/api/public-services');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

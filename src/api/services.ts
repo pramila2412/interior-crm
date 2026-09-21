@@ -17,9 +17,9 @@ const fetchAPI = async (endpoint: string, options: RequestInit = {}) => {
   return res.json();
 };
 
-export const getPublicServices = async (): Promise<PublicService[]> => [];
-export const addPublicService = async (_service: Omit<PublicService, 'id'>): Promise<PublicService> => ({} as PublicService);
-export const deletePublicService = async (_id: string): Promise<void> => {};
+export const getPublicServices = async (): Promise<PublicService[]> => fetchAPI('/public-services');
+export const addPublicService = async (service: Omit<PublicService, 'id'>): Promise<PublicService> => fetchAPI('/public-services', { method: 'POST', body: JSON.stringify(service) });
+export const deletePublicService = async (id: string): Promise<void> => fetchAPI(`/public-services/${id}`, { method: 'DELETE' });
 
 export const getUsers = async (): Promise<User[]> => fetchAPI('/users');
 export const addUser = async (user: Omit<User, 'id'>): Promise<User> => fetchAPI('/users', { method: 'POST', body: JSON.stringify(user) });
