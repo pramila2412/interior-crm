@@ -43,7 +43,7 @@ export function CalendarView() {
     setDescription('');
     setDate(selectedDate ? selectedDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
     setType('meeting');
-    setProjectId('');
+    setProjectId(projects.length > 0 ? projects[0].id : '');
     setIsModalOpen(true);
   };
 
@@ -234,7 +234,6 @@ export function CalendarView() {
                     value={projectId}
                     onChange={e => setProjectId(e.target.value)}
                   >
-                    <option value="">Select a project...</option>
                     {projects.map(p => (
                       <option key={p.id} value={p.id}>{p.projectName}</option>
                     ))}
