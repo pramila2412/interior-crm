@@ -20,7 +20,7 @@ export function Projects() {
   const [projectName, setProjectName] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [category, setCategory] = useState('');
-  const [budget, setBudget] = useState(0);
+  const [budget, setBudget] = useState<number | ''>('');
 
   useEffect(() => {
     loadProjects();
@@ -76,7 +76,7 @@ export function Projects() {
       projectName,
       customerName,
       category,
-      budget,
+      budget: Number(budget),
       status: 'Planning',
       startDate: new Date().toISOString().split('T')[0],
       endDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
@@ -293,7 +293,7 @@ export function Projects() {
                     min="0"
                     step="1000"
                     value={budget}
-                    onChange={e => setBudget(Number(e.target.value))}
+                    onChange={e => setBudget(e.target.value === '' ? '' : Number(e.target.value))}
                     className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 text-foreground"
                     placeholder="0"
                   />
