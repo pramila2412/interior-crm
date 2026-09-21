@@ -87,7 +87,7 @@ const createRoutes = (Model, path) => {
       if (!updated) return res.status(404).json({ error: 'Not found' });
 
       // BUSINESS LOGIC PIPELINE
-      if (path === '/api/quotations' && oldDoc.status !== 'ACCEPTED' && updated.status === 'ACCEPTED') {
+      if (path === '/api/quotations' && oldDoc.status !== 'APPROVED' && updated.status === 'APPROVED') {
         // Automatically create a Draft Purchase Order
         const Order = require('./models/Order');
         await Order.create({
@@ -97,12 +97,12 @@ const createRoutes = (Model, path) => {
           vendor: 'Pending Assignment',
           date: new Date().toISOString().split('T')[0],
           amount: updated.total * 0.4, // Estimate 40% material cost
-          status: 'DRAFT',
+          status: 'PROCESSING', // Use processing instead of DRAFT to match OrderStatus
           expectedDelivery: new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0]
         });
       }
 
-      if (path === '/api/orders' && oldDoc.status !== 'ISSUED' && updated.status === 'ISSUED') {
+      if (path === '/api/orders' && oldDoc.status !== 'READY' && updated.status === 'READY') {
         // Automatically push to Production
         const ProductionJob = require('./models/ProductionJob');
         const existingJob = await ProductionJob.findOne({ projectId: updated.projectId });

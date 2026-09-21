@@ -120,8 +120,8 @@ export function Quotations() {
       {loading ? (
         <div className="text-center py-10 text-muted">Loading quotations...</div>
       ) : view === 'list' ? (
-        <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
+        <div className="bg-card rounded-xl border border-border shadow-sm">
+          <div className="overflow-visible">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-secondary/50 text-foreground text-sm border-b border-border">
