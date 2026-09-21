@@ -43,7 +43,7 @@ export function CalendarView() {
     setDescription('');
     setDate(selectedDate ? selectedDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
     setType('meeting');
-    setProjectId(projects.length > 0 ? projects[0].id : '');
+    setProjectId('');
     setIsModalOpen(true);
   };
 
@@ -60,6 +60,11 @@ export function CalendarView() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!projectId) {
+      alert('Please select a project to link this event to.');
+      return;
+    }
+    
     if (editingEvent) {
       await updateCalendarEvent(editingEvent.id, { title, description, date: new Date(date).toISOString(), type, projectId });
     } else {
@@ -234,6 +239,7 @@ export function CalendarView() {
                     value={projectId}
                     onChange={e => setProjectId(e.target.value)}
                   >
+                    <option value="" disabled>Select a project...</option>
                     {projects.map(p => (
                       <option key={p.id} value={p.id}>{p.projectName}</option>
                     ))}
