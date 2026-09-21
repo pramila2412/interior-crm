@@ -137,6 +137,16 @@ export type Payment = {
   status: PaymentStatus;
 };
 
+export type CalendarEvent = {
+  id: string;
+  title: string;
+  description?: string;
+  date: string;
+  type: 'meeting' | 'installation' | 'measurement' | 'deadline';
+  projectId?: string;
+  customerId?: string;
+};
+
 // Initial Mock Data
 export const mockUsers: User[] = [
   { id: 'u1', name: 'Alice Super', email: 'alice@furnish.com', role: 'Superadmin' },

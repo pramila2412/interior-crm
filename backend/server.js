@@ -15,6 +15,7 @@ const Installation = require('./models/Installation');
 const InventoryItem = require('./models/InventoryItem');
 const Payment = require('./models/Payment');
 const PublicService = require('./models/PublicService');
+const CalendarEvent = require('./models/CalendarEvent');
 
 const app = express();
 app.use(cors());
@@ -113,6 +114,7 @@ createRoutes(Installation, '/api/installations');
 createRoutes(InventoryItem, '/api/inventory');
 createRoutes(Payment, '/api/payments');
 createRoutes(PublicService, '/api/public-services');
+createRoutes(CalendarEvent, '/api/calendar');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

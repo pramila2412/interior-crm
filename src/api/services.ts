@@ -1,4 +1,4 @@
-import type { Customer, CustomerStatus, User, PublicService, Project, ProjectStatus, Task, TaskStatus, Quotation, QuotationStatus, Order, OrderStatus, ProductionJob, ProductionStage, Installation, InstallationStatus, InventoryItem, Payment, PaymentStatus } from './db';
+import type { Customer, CustomerStatus, User, PublicService, Project, ProjectStatus, Task, TaskStatus, Quotation, QuotationStatus, Order, OrderStatus, ProductionJob, ProductionStage, Installation, InstallationStatus, InventoryItem, Payment, PaymentStatus, CalendarEvent } from './db';
 
 // Use Render backend in production, fallback to localhost for local development
 const API_URL = import.meta.env.PROD 
@@ -93,9 +93,11 @@ export const addInventoryItem = async (item: Omit<InventoryItem, 'id'>): Promise
 };
 
 export const getPayments = async (): Promise<Payment[]> => fetchAPI('/payments');
-export const addPayment = async (payment: Omit<Payment, 'id'>): Promise<void> => {
-  await fetchAPI('/payments', { method: 'POST', body: JSON.stringify(payment) });
-};
-export const updatePaymentStatus = async (id: string, status: PaymentStatus): Promise<void> => {
-  await fetchAPI(`/payments/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
-};
+export const addPayment = async (payment: Omit<Payment, 'id'>): Promise<Payment> => fetchAPI('/payments', { method: 'POST', body: JSON.stringify(payment) });
+export const updatePaymentStatus = async (id: string, status: PaymentStatus): Promise<Payment> => fetchAPI(`/payments/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
+export const deletePayment = async (id: string): Promise<void> => fetchAPI(`/payments/${id}`, { method: 'DELETE' });
+
+export const getCalendarEvents = async (): Promise<CalendarEvent[]> => fetchAPI('/calendar');
+export const addCalendarEvent = async (event: Omit<CalendarEvent, 'id'>): Promise<CalendarEvent> => fetchAPI('/calendar', { method: 'POST', body: JSON.stringify(event) });
+export const updateCalendarEvent = async (id: string, event: Partial<CalendarEvent>): Promise<CalendarEvent> => fetchAPI(`/calendar/${id}`, { method: 'PATCH', body: JSON.stringify(event) });
+export const deleteCalendarEvent = async (id: string): Promise<void> => fetchAPI(`/calendar/${id}`, { method: 'DELETE' });
