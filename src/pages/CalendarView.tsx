@@ -228,12 +228,13 @@ export function CalendarView() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-muted mb-1">Link to Project (Optional)</label>
+                  <label className="block text-sm font-medium text-muted mb-1">Link to Project</label>
                   <SelectInput 
+                    required
                     value={projectId}
                     onChange={e => setProjectId(e.target.value)}
                   >
-                    <option value="">None</option>
+                    <option value="">Select a project...</option>
                     {projects.map(p => (
                       <option key={p.id} value={p.id}>{p.projectName}</option>
                     ))}
