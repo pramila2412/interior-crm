@@ -196,8 +196,8 @@ export function Customers() {
           </div>
         </DragDropContext>
       ) : (
-        <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="bg-card rounded-xl border border-border shadow-sm overflow-visible">
+          <div className="overflow-visible">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-background/50 border-b border-border text-sm text-muted">

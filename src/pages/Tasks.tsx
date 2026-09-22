@@ -213,8 +213,8 @@ export function Tasks() {
           </div>
         </DragDropContext>
       ) : (
-        <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
+        <div className="bg-card rounded-xl border border-border overflow-visible shadow-sm">
+          <div className="overflow-visible">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-secondary/50 text-foreground text-sm border-b border-border">
