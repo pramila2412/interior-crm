@@ -237,13 +237,22 @@ export function ProjectDetails() {
               Quick Actions
             </h2>
             <div className="space-y-3">
-              <button className="w-full py-2.5 bg-primary/10 text-primary font-medium rounded-lg hover:bg-primary/20 transition-colors border border-primary/20">
+              <button 
+                onClick={() => navigate('/admin/quotations')}
+                className="w-full py-2.5 bg-primary/10 text-primary font-medium rounded-lg hover:bg-primary/20 transition-colors border border-primary/20"
+              >
                 View Quotation
               </button>
-              <button className="w-full py-2.5 bg-background text-foreground font-medium rounded-lg border border-border hover:bg-secondary transition-colors">
+              <button 
+                onClick={() => navigate('/admin/payments')}
+                className="w-full py-2.5 bg-background text-foreground font-medium rounded-lg border border-border hover:bg-secondary transition-colors"
+              >
                 Generate Invoice
               </button>
-              <button className="w-full py-2.5 bg-background text-foreground font-medium rounded-lg border border-border hover:bg-secondary transition-colors">
+              <button 
+                onClick={() => navigate('/admin/calendar')}
+                className="w-full py-2.5 bg-background text-foreground font-medium rounded-lg border border-border hover:bg-secondary transition-colors"
+              >
                 Log Site Visit
               </button>
             </div>
