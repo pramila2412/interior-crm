@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
+  password: { type: String, required: true, default: 'admin123' },
   role: { type: String, default: 'Staff' } // 'Superadmin' | 'Admin' | 'Staff'
 }, { timestamps: true });
 

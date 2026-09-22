@@ -24,6 +24,9 @@ export const deletePublicService = async (id: string): Promise<void> => fetchAPI
 export const getUsers = async (): Promise<User[]> => fetchAPI('/users');
 export const addUser = async (user: Omit<User, 'id'>): Promise<User> => fetchAPI('/users', { method: 'POST', body: JSON.stringify(user) });
 export const deleteUser = async (id: string): Promise<void> => fetchAPI(`/users/${id}`, { method: 'DELETE' });
+export const loginUser = async (credentials: { email: string; password: string }) => {
+  return fetchAPI('/login', { method: 'POST', body: JSON.stringify(credentials) });
+};
 
 export const getCustomers = async (): Promise<Customer[]> => fetchAPI('/customers');
 export const getCustomerById = async (id: string): Promise<Customer | undefined> => fetchAPI(`/customers/${id}`);

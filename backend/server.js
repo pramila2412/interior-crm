@@ -23,8 +23,21 @@ app.use(express.json());
 
 if (process.env.MONGODB_URI) {
   mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+  .then(async () => {
+    console.log('MongoDB connected');
+    // Seed default admin if none exists
+    const adminCount = await User.countDocuments({ role: 'Superadmin' });
+    if (adminCount === 0) {
+      await User.create({
+        name: 'Super Admin',
+        email: 'admin@example.com',
+        password: 'admin',
+        role: 'Superadmin'
+      });
+      console.log('Default super admin created (admin@example.com / admin)');
+    }
+  })
+  .catch(err => console.error('MongoDB connection error:', err));
 } else {
   console.error('CRITICAL: MONGODB_URI environment variable is missing!');
 }
@@ -32,6 +45,35 @@ if (process.env.MONGODB_URI) {
 // Root Health Check Route
 app.get('/', (req, res) => {
   res.send('Interior CRM API is running!');
+});
+
+// Auth Route
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    // Find user (in a real app, hash passwords!)
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    if (user.role !== 'Superadmin' && user.role !== 'Admin') {
+      return res.status(403).json({ error: 'Access denied. Admins only.' });
+    }
+
+    res.json({ message: 'Login successful', user: { id: user._id, name: user.name, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Generic Routes Factory
