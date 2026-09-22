@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getProjectById, updateProjectStatus } from '../api/services';
-import { type Project, type ProjectStatus } from '../api/db';
-import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase, FileText } from 'lucide-react';
+import { getProjectById, updateProjectStatus, getQuotations, getOrders, getProductionJobs, getInstallations } from '../api/services';
+import { type Project, type ProjectStatus, type Quotation, type Order, type ProductionJob, type Installation } from '../api/db';
+import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase, FileText, CheckCircle2, CircleDashed } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
 const STATUSES: ProjectStatus[] = ['Planning', 'Execution', 'Review', 'Completed'];
@@ -11,6 +11,10 @@ export function ProjectDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
+  const [quotations, setQuotations] = useState<Quotation[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [productionJobs, setProductionJobs] = useState<ProductionJob[]>([]);
+  const [installations, setInstallations] = useState<Installation[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,8 +25,27 @@ export function ProjectDetails() {
 
   const loadProject = async (projectId: string) => {
     setLoading(true);
-    const data = await getProjectById(projectId);
+    const [
+      data, 
+      allQuotes, 
+      allOrders, 
+      allJobs, 
+      allInstalls
+    ] = await Promise.all([
+      getProjectById(projectId),
+      getQuotations(),
+      getOrders(),
+      getProductionJobs(),
+      getInstallations()
+    ]);
+    
     setProject(data || null);
+    if (data) {
+      setQuotations(allQuotes.filter(q => q.projectId === data.id));
+      setOrders(allOrders.filter(o => o.projectId === data.id));
+      setProductionJobs(allJobs.filter(j => j.projectId === data.id));
+      setInstallations(allInstalls.filter(i => i.projectId === data.id));
+    }
     setLoading(false);
   };
 
@@ -137,17 +160,71 @@ export function ProjectDetails() {
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
             <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-foreground">
-              <FileText className="w-5 h-5 text-primary" />
-              Project Scope & Notes
+              <Activity className="w-5 h-5 text-primary" />
+              Complete Project Pipeline
             </h2>
+            
             <div className="space-y-4">
-              <p className="text-muted leading-relaxed">
-                This project is currently in the <span className="font-semibold text-foreground">{project.status}</span> phase. 
-                It requires full end-to-end execution for the {project.category} category.
-              </p>
-              <div className="p-4 bg-secondary/30 rounded-lg border border-border/50 text-sm text-muted">
-                (Mock details placeholder: A rich text editor or note log will go here to track daily updates, site visit notes, and project changes.)
+              {/* Quotations */}
+              <div className="p-4 bg-secondary/30 rounded-xl border border-border/50">
+                <h3 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider text-muted">1. Quotations ({quotations.length})</h3>
+                {quotations.length === 0 ? <p className="text-sm text-muted">No quotations generated yet.</p> : (
+                  <div className="space-y-2">
+                    {quotations.map(q => (
+                      <div key={q.id} className="flex justify-between items-center bg-background p-3 rounded-lg border border-border shadow-sm">
+                        <span className="font-medium text-sm text-foreground">Total: ₹ {q.total.toLocaleString()}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${q.status === 'APPROVED' ? 'bg-[#10b981]/10 text-[#10b981]' : 'bg-secondary text-muted'}`}>{q.status}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
+
+              {/* Purchase Orders */}
+              <div className="p-4 bg-secondary/30 rounded-xl border border-border/50">
+                <h3 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider text-muted">2. Purchase Orders ({orders.length})</h3>
+                {orders.length === 0 ? <p className="text-sm text-muted">No orders placed yet.</p> : (
+                  <div className="space-y-2">
+                    {orders.map(o => (
+                      <div key={o.id} className="flex justify-between items-center bg-background p-3 rounded-lg border border-border shadow-sm">
+                        <span className="font-medium text-sm text-foreground">{o.poNumber}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${o.status === 'READY' ? 'bg-[#10b981]/10 text-[#10b981]' : 'bg-blue-500/10 text-blue-600'}`}>{o.status}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Production */}
+              <div className="p-4 bg-secondary/30 rounded-xl border border-border/50">
+                <h3 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider text-muted">3. Production ({productionJobs.length})</h3>
+                {productionJobs.length === 0 ? <p className="text-sm text-muted">Not pushed to production yet.</p> : (
+                  <div className="space-y-2">
+                    {productionJobs.map(j => (
+                      <div key={j.id} className="flex justify-between items-center bg-background p-3 rounded-lg border border-border shadow-sm">
+                        <span className="font-medium text-sm text-foreground">Factory Ticket</span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${j.stage === 'READY' ? 'bg-[#10b981]/10 text-[#10b981]' : 'bg-amber-500/10 text-amber-600'}`}>{j.stage}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Installations */}
+              <div className="p-4 bg-secondary/30 rounded-xl border border-border/50">
+                <h3 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wider text-muted">4. Installation ({installations.length})</h3>
+                {installations.length === 0 ? <p className="text-sm text-muted">No installation scheduled yet.</p> : (
+                  <div className="space-y-2">
+                    {installations.map(i => (
+                      <div key={i.id} className="flex justify-between items-center bg-background p-3 rounded-lg border border-border shadow-sm">
+                        <span className="font-medium text-sm text-foreground">Date: {i.scheduledDate}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${i.status === 'COMPLETED' ? 'bg-[#10b981]/10 text-[#10b981]' : 'bg-purple-500/10 text-purple-600'}`}>{i.status}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
             </div>
           </div>
         </div>
