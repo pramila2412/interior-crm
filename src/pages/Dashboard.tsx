@@ -15,8 +15,9 @@ export function Dashboard() {
   const stats = [
     { label: 'Total Enquiries', value: customers.filter(c => c.status === 'Enquiry').length, icon: ClipboardList, color: 'text-terracotta' },
     { label: 'In Measurement', value: customers.filter(c => c.status === 'Measurement').length, icon: Ruler, color: 'text-taupe' },
+    { label: 'In Estimate', value: customers.filter(c => c.status === 'Estimate').length, icon: ClipboardList, color: 'text-blue-500' },
     { label: 'In Production', value: customers.filter(c => c.status === 'Production').length, icon: Hammer, color: 'text-olive' },
-    { label: 'Pending Delivery', value: customers.filter(c => c.status === 'Delivery & Installation').length, icon: Truck, color: 'text-stone' },
+    { label: 'In Installation', value: customers.filter(c => c.status === 'Installation').length, icon: Truck, color: 'text-stone' },
     { label: 'Total Staff', value: users.length, icon: Users, color: 'text-charcoal' },
   ];
 
@@ -24,7 +25,7 @@ export function Dashboard() {
     <div className="space-y-6">
       <h1 className="text-3xl font-semibold text-primary">Dashboard</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4">
         {stats.map((stat) => (
           <div key={stat.label} className="bg-card p-6 rounded-xl border border-border shadow-sm flex flex-col gap-4">
             <div className="flex justify-between items-start">

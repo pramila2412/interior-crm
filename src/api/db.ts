@@ -8,7 +8,7 @@ export type User = {
   avatar?: string;
 };
 
-export type CustomerStatus = 'Enquiry' | 'Measurement' | 'Production' | 'Delivery & Installation';
+export type CustomerStatus = 'Enquiry' | 'Measurement' | 'Estimate' | 'Production' | 'Installation';
 
 export type Customer = {
   id: string;
@@ -29,7 +29,7 @@ export type Customer = {
   deliveryDate?: string;
 };
 
-export type ProjectStatus = 'Planning' | 'Execution' | 'Review' | 'Completed';
+export type ProjectStatus = 'Enquiry' | 'Measurement' | 'Estimate' | 'Production' | 'Installation';
 
 export type Project = {
   id: string;

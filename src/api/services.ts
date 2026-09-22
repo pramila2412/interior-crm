@@ -55,7 +55,7 @@ export const addCustomer = async (customer: Omit<Customer, 'id' | 'dateAdded'>):
 export const getProjects = async (): Promise<Project[]> => fetchAPI('/projects');
 export const getProjectById = async (id: string): Promise<Project | undefined> => fetchAPI(`/projects/${id}`);
 export const updateProjectStatus = async (id: string, status: ProjectStatus): Promise<void> => {
-  await fetchAPI(`/projects/${id}`, { method: 'PATCH', body: JSON.stringify({ status, progress: status === 'Completed' ? 100 : undefined }) });
+  await fetchAPI(`/projects/${id}`, { method: 'PATCH', body: JSON.stringify({ status, progress: status === 'Installation' ? 100 : undefined }) });
 };
 export const addProject = async (project: Omit<Project, 'id' | 'progress'>): Promise<void> => {
   await fetchAPI('/projects', { method: 'POST', body: JSON.stringify({ ...project, progress: 0 }) });

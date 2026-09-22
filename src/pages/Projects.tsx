@@ -6,7 +6,7 @@ import { type Project, type ProjectStatus, type PublicService, type Customer } f
 import { LayoutList, KanbanSquare, Plus, X, IndianRupee } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
-const STATUSES: ProjectStatus[] = ['Planning', 'Execution', 'Review', 'Completed'];
+const STATUSES: ProjectStatus[] = ['Enquiry', 'Measurement', 'Estimate', 'Production', 'Installation'];
 
 export function Projects() {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ export function Projects() {
       prev.map(p => p.id === draggableId ? { 
         ...p, 
         status: newStatus,
-        progress: newStatus === 'Completed' ? 100 : p.progress 
+        progress: newStatus === 'Installation' ? 100 : p.progress 
       } : p)
     );
 
@@ -63,7 +63,7 @@ export function Projects() {
       prev.map(p => p.id === id ? { 
         ...p, 
         status: newStatus,
-        progress: newStatus === 'Completed' ? 100 : p.progress
+        progress: newStatus === 'Installation' ? 100 : p.progress
       } : p)
     );
     // Actual API call
@@ -80,7 +80,7 @@ export function Projects() {
       customerName,
       category,
       budget: Number(budget),
-      status: 'Planning',
+      status: 'Enquiry',
       startDate: new Date().toISOString().split('T')[0],
       endDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
     });

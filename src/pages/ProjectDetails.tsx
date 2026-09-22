@@ -5,7 +5,7 @@ import { type Project, type ProjectStatus, type Quotation, type Order, type Prod
 import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase, FileText, CheckCircle2, CircleDashed } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
-const STATUSES: ProjectStatus[] = ['Planning', 'Execution', 'Review', 'Completed'];
+const STATUSES: ProjectStatus[] = ['Enquiry', 'Measurement', 'Estimate', 'Production', 'Installation'];
 
 export function ProjectDetails() {
   const { id } = useParams<{ id: string }>();

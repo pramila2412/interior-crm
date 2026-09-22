@@ -6,7 +6,7 @@ import { type Customer, type CustomerStatus, type PublicService } from '../api/d
 import { Phone, MessageCircle, LayoutList, KanbanSquare, Plus, X } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
-const STATUSES: CustomerStatus[] = ['Enquiry', 'Measurement', 'Production', 'Delivery & Installation'];
+const STATUSES: CustomerStatus[] = ['Enquiry', 'Measurement', 'Estimate', 'Production', 'Installation'];
 
 export function Customers() {
   const navigate = useNavigate();
