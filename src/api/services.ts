@@ -13,7 +13,20 @@ const fetchAPI = async (endpoint: string, options: RequestInit = {}) => {
       ...options.headers,
     },
   });
-  if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+  
+  if (!res.ok) {
+    let errorMessage = `API Error: ${res.statusText}`;
+    try {
+      const errorData = await res.json();
+      if (errorData.error) {
+        errorMessage = errorData.error;
+      }
+    } catch (e) {
+      // Ignore JSON parse errors for non-JSON error responses
+    }
+    throw new Error(errorMessage);
+  }
+  
   return res.json();
 };
 
