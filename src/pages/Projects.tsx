@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable, type DropResult } from '@hello-pangea/dnd';
-import { getProjects, updateProjectStatus, addProject, getPublicServices } from '../api/services';
-import { type Project, type ProjectStatus, type PublicService } from '../api/db';
+import { getProjects, updateProjectStatus, addProject, getPublicServices, getCustomers } from '../api/services';
+import { type Project, type ProjectStatus, type PublicService, type Customer } from '../api/db';
 import { LayoutList, KanbanSquare, Plus, X, IndianRupee } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
@@ -12,6 +12,7 @@ export function Projects() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
   const [services, setServices] = useState<PublicService[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<'kanban' | 'list'>('kanban');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,9 +29,10 @@ export function Projects() {
 
   const loadProjects = async () => {
     setLoading(true);
-    const [data, servicesData] = await Promise.all([getProjects(), getPublicServices()]);
+    const [data, servicesData, customersData] = await Promise.all([getProjects(), getPublicServices(), getCustomers()]);
     setProjects(data);
     setServices(servicesData);
+    setCustomers(customersData);
     setLoading(false);
   };
 
@@ -70,8 +72,9 @@ export function Projects() {
 
   const handleAddProject = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!projectName || !customerName || !category) return;
-
+    if (!customerName) { alert('Please select a customer.'); return; }
+    if (!category) { alert('Please select a category.'); return; }
+    if (!projectName) return;
     await addProject({
       projectName,
       customerName,
@@ -86,7 +89,7 @@ export function Projects() {
     setProjectName('');
     setCustomerName('');
     setCategory('');
-    setBudget(0);
+    setBudget('');
     await loadProjects();
   };
 
@@ -262,15 +265,17 @@ export function Projects() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-muted mb-1">Customer Name</label>
-                  <input 
+                  <label className="block text-sm font-medium text-muted mb-1">Customer</label>
+                  <SelectInput 
                     required
-                    type="text" 
                     value={customerName}
                     onChange={e => setCustomerName(e.target.value)}
-                    className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 text-foreground"
-                    placeholder="John Doe"
-                  />
+                  >
+                    <option value="" disabled>Select a customer...</option>
+                    {customers.map(c => (
+                      <option key={c.id} value={c.name}>{c.name}</option>
+                    ))}
+                  </SelectInput>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-muted mb-1">Category</label>
