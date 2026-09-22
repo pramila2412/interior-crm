@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProjectById, updateProjectStatus, getQuotations, getOrders, getProductionJobs, getInstallations } from '../api/services';
 import { type Project, type ProjectStatus, type Quotation, type Order, type ProductionJob, type Installation } from '../api/db';
-import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase, FileText, CheckCircle2, CircleDashed } from 'lucide-react';
+import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
 const STATUSES: ProjectStatus[] = ['Enquiry', 'Measurement', 'Estimate', 'Production', 'Installation'];
@@ -51,7 +51,7 @@ export function ProjectDetails() {
 
   const handleStatusChange = async (newStatus: ProjectStatus) => {
     if (!project) return;
-    setProject({ ...project, status: newStatus, progress: newStatus === 'Completed' ? 100 : project.progress });
+    setProject({ ...project, status: newStatus, progress: newStatus === 'Installation' ? 100 : project.progress });
     await updateProjectStatus(project.id, newStatus);
   };
 
@@ -187,7 +187,7 @@ export function ProjectDetails() {
                   <div className="space-y-2">
                     {orders.map(o => (
                       <div key={o.id} className="flex justify-between items-center bg-background p-3 rounded-lg border border-border shadow-sm">
-                        <span className="font-medium text-sm text-foreground">{o.poNumber}</span>
+                        <span className="font-medium text-sm text-foreground">Order #{o.id.substring(0,6)}</span>
                         <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${o.status === 'READY' ? 'bg-[#10b981]/10 text-[#10b981]' : 'bg-blue-500/10 text-blue-600'}`}>{o.status}</span>
                       </div>
                     ))}

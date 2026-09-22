@@ -156,10 +156,10 @@ export const mockUsers: User[] = [
 ];
 
 export const mockProjects: Project[] = [
-  { id: 'p1', projectName: 'Skyline Penthouse Redesign', customerName: 'John Doe', category: 'Full Home Interiors', status: 'Planning', startDate: '2026-09-20', endDate: '2026-11-15', budget: 45000, progress: 10 },
-  { id: 'p2', projectName: 'Smith Kitchen Upgrade', customerName: 'Jane Smith', category: 'Modular Kitchen', status: 'Execution', startDate: '2026-09-01', endDate: '2026-10-15', budget: 15000, progress: 45 },
-  { id: 'p3', projectName: 'Downtown Office Setup', customerName: 'Robert Brown', category: 'Commercial Spaces', status: 'Review', startDate: '2026-08-10', endDate: '2026-09-20', budget: 85000, progress: 90 },
-  { id: 'p4', projectName: 'Cozy Villa Living Room', customerName: 'Emily White', category: 'Luxury Furniture', status: 'Completed', startDate: '2026-07-01', endDate: '2026-08-15', budget: 12000, progress: 100 },
+  { id: 'p1', projectName: 'Skyline Penthouse Redesign', customerName: 'John Doe', category: 'Full Home Interiors', status: 'Enquiry', startDate: '2026-09-20', endDate: '2026-11-15', budget: 45000, progress: 10 },
+  { id: 'p2', projectName: 'Smith Kitchen Upgrade', customerName: 'Jane Smith', category: 'Modular Kitchen', status: 'Measurement', startDate: '2026-09-01', endDate: '2026-10-15', budget: 15000, progress: 45 },
+  { id: 'p3', projectName: 'Downtown Office Setup', customerName: 'Robert Brown', category: 'Commercial Spaces', status: 'Production', startDate: '2026-08-10', endDate: '2026-09-20', budget: 85000, progress: 90 },
+  { id: 'p4', projectName: 'Cozy Villa Living Room', customerName: 'Emily White', category: 'Luxury Furniture', status: 'Installation', startDate: '2026-07-01', endDate: '2026-08-15', budget: 12000, progress: 100 },
 ];
 
 export const mockTasks: Task[] = [
@@ -250,7 +250,7 @@ export const mockCustomers: Customer[] = [
     measurementDate: '2026-09-08', deliveryDate: '2026-10-10'
   },
   {
-    id: 'c4', name: 'Emily White', phone: '+916543210987', address: '321 Elm St, Toronto', service: 'Sofa Customization', category: 'Luxury Furniture', status: 'Delivery & Installation', dateAdded: '2026-09-01',
+    id: 'c4', name: 'Emily White', phone: '+916543210987', address: '321 Elm St, Toronto', service: 'Sofa Customization', category: 'Luxury Furniture', status: 'Installation', dateAdded: '2026-09-01',
     measurementDate: '2026-09-03', deliveryDate: '2026-09-16'
   },
   {
@@ -270,7 +270,7 @@ export const mockCustomers: Customer[] = [
     measurementDate: '2026-09-11', deliveryDate: '2026-09-19'
   },
   {
-    id: 'c9', name: 'James Wilson', phone: '+915544332211', address: '11 Cedar Ln, Denver', service: 'Dining Set', category: 'Luxury Furniture', status: 'Delivery & Installation', dateAdded: '2026-09-02',
+    id: 'c9', name: 'James Wilson', phone: '+915544332211', address: '11 Cedar Ln, Denver', service: 'Dining Set', category: 'Luxury Furniture', status: 'Installation', dateAdded: '2026-09-02',
     measurementDate: '2026-09-04', deliveryDate: '2026-09-17'
   },
   {
