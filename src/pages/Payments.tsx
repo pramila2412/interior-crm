@@ -220,20 +220,21 @@ export function Payments() {
 
       {/* Record Payment Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-card w-full max-w-md rounded-2xl shadow-xl border border-border flex flex-col">
-            <div className="flex justify-between items-center p-6 border-b border-border">
-              <h2 className="text-xl font-bold text-foreground">Record Payment</h2>
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="text-muted hover:text-foreground transition-colors p-1 rounded-md hover:bg-secondary"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
-            <div className="p-6">
-              <form id="add-payment-form" onSubmit={handleRecordPayment} className="space-y-4">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 p-4 overflow-y-auto">
+          <div className="min-h-full flex items-center justify-center py-8">
+            <div className="bg-card w-full max-w-md rounded-2xl shadow-xl border border-border flex flex-col">
+              <div className="flex justify-between items-center p-6 border-b border-border">
+                <h2 className="text-xl font-bold text-foreground">Record Payment</h2>
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="text-muted hover:text-foreground transition-colors p-1 rounded-md hover:bg-secondary"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="p-6 overflow-visible">
+                <form id="add-payment-form" onSubmit={handleRecordPayment} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-muted mb-1">Project</label>
                   <SelectInput 

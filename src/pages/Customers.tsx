@@ -265,17 +265,18 @@ export function Customers() {
 
       {/* Add Customer Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-card rounded-2xl max-w-md w-full p-6 shadow-xl relative border border-border">
-            <button 
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 p-1 rounded-full hover:bg-background text-muted transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <h2 className="text-2xl font-bold text-foreground mb-6">Add New Customer</h2>
-            
-            <form onSubmit={handleAddCustomer} className="space-y-4">
+        <div className="fixed inset-0 bg-black/50 z-50 p-4 overflow-y-auto">
+          <div className="min-h-full flex items-center justify-center py-8">
+            <div className="bg-card rounded-2xl max-w-md w-full p-6 shadow-xl relative border border-border">
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 p-1 rounded-full hover:bg-background text-muted transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <h2 className="text-2xl font-bold text-foreground mb-6">Add New Customer</h2>
+              
+              <form onSubmit={handleAddCustomer} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-muted mb-1">Full Name</label>
                 <input 
