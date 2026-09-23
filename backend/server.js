@@ -164,9 +164,10 @@ const createRoutes = (Model, path) => {
         );
       }
 
-      if (path === '/api/orders' && oldDoc.status !== 'READY' && updated.status === 'READY') {
-        // Automatically push to Production
+      if (path === '/api/orders' && oldDoc.status !== 'DELIVERED' && updated.status === 'DELIVERED') {
+        // Automatically push to Production when materials arrive
         const ProductionJob = require('./models/ProductionJob');
+        const Project = require('./models/Project');
         const existingJob = await ProductionJob.findOne({ projectId: updated.projectId });
         if (!existingJob) {
           await ProductionJob.create({
@@ -174,18 +175,21 @@ const createRoutes = (Model, path) => {
             projectId: updated.projectId,
             projectName: updated.projectName,
             customerName: updated.customerName || 'Unknown Customer',
-            stage: 'PROCUREMENT',
+            stage: 'IN_PROGRESS',
             priority: 'High',
             startDate: new Date().toISOString().split('T')[0],
             deadline: new Date(Date.now() + 14*24*60*60*1000).toISOString().split('T')[0]
           });
         }
+        // Advance Project to Production stage
+        await Project.findByIdAndUpdate(updated.projectId, { status: 'Production' });
       }
 
-      if (path === '/api/production' && oldDoc.stage !== 'READY' && updated.stage === 'READY') {
+      if (path === '/api/production' && oldDoc.stage !== 'COMPLETED' && updated.stage === 'COMPLETED') {
         // Automatically push to Installation Calendar
         const CalendarEvent = require('./models/CalendarEvent');
         const Installation = require('./models/Installation');
+        const Project = require('./models/Project');
         
         await Installation.create({
           projectId: updated.projectId,
@@ -206,6 +210,9 @@ const createRoutes = (Model, path) => {
           projectId: updated.projectId,
           customerId: ''
         });
+
+        // Advance Project to Installation stage
+        await Project.findByIdAndUpdate(updated.projectId, { status: 'Installation' });
       }
 
       res.json(updated);

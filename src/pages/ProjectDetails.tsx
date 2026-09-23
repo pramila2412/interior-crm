@@ -203,7 +203,7 @@ export function ProjectDetails() {
                     {productionJobs.map(j => (
                       <div key={j.id} className="flex justify-between items-center bg-background p-3 rounded-lg border border-border shadow-sm">
                         <span className="font-medium text-sm text-foreground">Factory Ticket</span>
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${j.stage === 'READY' ? 'bg-[#10b981]/10 text-[#10b981]' : 'bg-amber-500/10 text-amber-600'}`}>{j.stage}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${j.stage === 'COMPLETED' ? 'bg-[#10b981]/10 text-[#10b981]' : 'bg-amber-500/10 text-amber-600'}`}>{j.stage}</span>
                       </div>
                     ))}
                   </div>

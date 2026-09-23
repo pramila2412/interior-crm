@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable, type DropResult } from '@hello-pangea/dnd';
 import { getProductionJobs, updateProductionStage } from '../api/services';
 import { type ProductionJob, type ProductionStage } from '../api/db';
-import { Box, Ruler, Scissors, CheckCircle2 } from 'lucide-react';
+import { Scissors, CheckCircle2 } from 'lucide-react';
 
 const STAGES: { id: ProductionStage; label: string; icon: any; color: string }[] = [
-  { id: 'PROCUREMENT', label: 'Procurement', icon: Box, color: 'text-amber-600' },
-  { id: 'MEASUREMENT', label: 'Measurement Final', icon: Ruler, color: 'text-blue-600' },
-  { id: 'TAILORING', label: 'Tailoring/Stitching', icon: Scissors, color: 'text-purple-600' },
-  { id: 'READY', label: 'Ready for Dispatch', icon: CheckCircle2, color: 'text-[#10b981]' },
+  { id: 'IN_PROGRESS', label: 'In Progress', icon: Scissors, color: 'text-amber-600' },
+  { id: 'COMPLETED', label: 'Completed (Ready for Installation)', icon: CheckCircle2, color: 'text-[#10b981]' },
 ];
 
 export function Production() {
@@ -72,7 +70,7 @@ export function Production() {
         <div className="text-center py-10 text-muted">Loading production jobs...</div>
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex overflow-x-auto xl:grid xl:grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)] snap-x">
+          <div className="flex overflow-x-auto xl:grid xl:grid-cols-2 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)] snap-x">
             {STAGES.map(column => {
               const Icon = column.icon;
               return (

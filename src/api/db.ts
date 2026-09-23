@@ -93,7 +93,7 @@ export type Order = {
   itemsCount: number;
 };
 
-export type ProductionStage = 'PROCUREMENT' | 'MEASUREMENT' | 'TAILORING' | 'READY';
+export type ProductionStage = 'IN_PROGRESS' | 'COMPLETED';
 export type ProductionJob = {
   id: string;
   projectId: string;
@@ -210,10 +210,10 @@ export const mockOrders: Order[] = [
 ];
 
 export const mockProductionJobs: ProductionJob[] = [
-  { id: 'PROD-001', projectId: 'p1', projectName: 'Skyline Penthouse Redesign', assigneeName: 'Alice Super', stage: 'PROCUREMENT' },
-  { id: 'PROD-002', projectId: 'p2', projectName: 'Smith Kitchen Upgrade', assigneeName: 'Charlie Manager', stage: 'MEASUREMENT' },
-  { id: 'PROD-003', projectId: 'p3', projectName: 'Downtown Office Setup', assigneeName: 'Bob Admin', stage: 'TAILORING' },
-  { id: 'PROD-004', projectId: 'p4', projectName: 'Cozy Villa Living Room', assigneeName: 'Diana Staff', stage: 'READY' }
+  { id: 'PROD-001', projectId: 'p1', projectName: 'Skyline Penthouse Redesign', assigneeName: 'Alice Super', stage: 'IN_PROGRESS' },
+  { id: 'PROD-002', projectId: 'p2', projectName: 'Smith Kitchen Upgrade', assigneeName: 'Charlie Manager', stage: 'IN_PROGRESS' },
+  { id: 'PROD-003', projectId: 'p3', projectName: 'Downtown Office Setup', assigneeName: 'Bob Admin', stage: 'IN_PROGRESS' },
+  { id: 'PROD-004', projectId: 'p4', projectName: 'Cozy Villa Living Room', assigneeName: 'Diana Staff', stage: 'COMPLETED' }
 ];
 
 export const mockInstallations: Installation[] = [
