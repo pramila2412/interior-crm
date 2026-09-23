@@ -203,6 +203,7 @@ export function Installations() {
                 Schedule Installation
               </button>
             </div>
+            </div>
           </div>
         </div>
       )}

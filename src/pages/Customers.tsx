@@ -330,6 +330,7 @@ export function Customers() {
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       )}

@@ -285,6 +285,7 @@ export function CalendarView() {
                 </button>
               </div>
             </div>
+            </div>
           </div>
         </div>
       )}

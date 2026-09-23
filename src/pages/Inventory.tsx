@@ -252,6 +252,7 @@ export function Inventory() {
                 Save Item
               </button>
             </div>
+            </div>
           </div>
         </div>
       )}

@@ -378,6 +378,7 @@ export function Tasks() {
                 Create Task
               </button>
             </div>
+            </div>
           </div>
         </div>
       )}

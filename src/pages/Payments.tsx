@@ -299,6 +299,7 @@ export function Payments() {
                 Record Payment
               </button>
             </div>
+            </div>
           </div>
         </div>
       )}

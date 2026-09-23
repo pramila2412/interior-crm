@@ -322,6 +322,7 @@ export function Projects() {
                 Create Project
               </button>
             </div>
+            </div>
           </div>
         </div>
       )}

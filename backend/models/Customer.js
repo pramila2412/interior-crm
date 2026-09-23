@@ -6,8 +6,13 @@ const customerSchema = new mongoose.Schema({
   address: String,
   service: String,
   category: String,
-  status: { type: String, default: 'Enquiry' }, // 'Enquiry' | 'Measurement' | 'Production' | 'Delivery & Installation'
-  dateAdded: String
+  status: { type: String, default: 'Enquiry' }, // 'Enquiry' | 'Measurement' | 'Estimate' | 'Production' | 'Installation'
+  dateAdded: String,
+  measurements: String,
+  measurementDate: String,
+  fabricDetails: String,
+  productionTimeline: String,
+  deliveryDate: String
 }, { timestamps: true });
 
 // Convert _id to id for frontend compatibility
