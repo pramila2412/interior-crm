@@ -144,6 +144,26 @@ const createRoutes = (Model, path) => {
         });
       }
 
+      if (path === '/api/projects' && oldDoc.status !== updated.status) {
+        // Automatically update the related Customer's status to match the Project
+        if (updated.customerName) {
+          const Customer = require('./models/Customer');
+          await Customer.findOneAndUpdate(
+            { name: updated.customerName },
+            { status: updated.status }
+          );
+        }
+      }
+
+      if (path === '/api/customers' && oldDoc.status !== updated.status) {
+        // Automatically update the related Project's status to match the Customer
+        const Project = require('./models/Project');
+        await Project.updateMany(
+          { customerName: updated.name },
+          { status: updated.status }
+        );
+      }
+
       if (path === '/api/orders' && oldDoc.status !== 'READY' && updated.status === 'READY') {
         // Automatically push to Production
         const ProductionJob = require('./models/ProductionJob');
