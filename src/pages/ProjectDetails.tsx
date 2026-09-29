@@ -4,6 +4,7 @@ import { getProjectById, updateProjectStatus, getQuotations, getOrders, getProdu
 import { type Project, type ProjectStatus, type Quotation, type Order, type ProductionJob, type Installation } from '../api/db';
 import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase, Link } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
+import { Modal } from '../components/ui/Modal';
 
 const STATUSES: ProjectStatus[] = ['Enquiry', 'Measurement', 'Estimate', 'Production', 'Installation'];
 
@@ -16,6 +17,7 @@ export function ProjectDetails() {
   const [productionJobs, setProductionJobs] = useState<ProductionJob[]>([]);
   const [installations, setInstallations] = useState<Installation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showLinkModal, setShowLinkModal] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -93,7 +95,7 @@ export function ProjectDetails() {
             onClick={() => {
               const url = `${window.location.origin}/track/${project.id}`;
               navigator.clipboard.writeText(url);
-              alert('Tracking link copied to clipboard! You can send this to the customer.');
+              setShowLinkModal(true);
             }}
             className="flex items-center gap-2 px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-muted hover:text-foreground transition-colors"
           >
@@ -270,6 +272,27 @@ export function ProjectDetails() {
           </div>
         </div>
       </div>
+      
+      <Modal 
+        isOpen={showLinkModal} 
+        onClose={() => setShowLinkModal(false)}
+        title="Link Copied"
+      >
+        <div className="space-y-4">
+          <p className="text-muted">
+            The tracking link has been successfully copied to your clipboard. 
+            You can now paste it into WhatsApp or an email to share with the customer.
+          </p>
+          <div className="flex justify-end pt-4">
+            <button 
+              onClick={() => setShowLinkModal(false)}
+              className="px-6 py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
+            >
+              Okay
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
