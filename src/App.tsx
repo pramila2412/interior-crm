@@ -20,6 +20,7 @@ import { Installations } from './pages/Installations';
 import { Inventory } from './pages/Inventory';
 import { Reports } from './pages/Reports';
 import { Payments } from './pages/Payments';
+import { TrackProject } from './pages/TrackProject';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/track/:id" element={<TrackProject />} />
         <Route path="/admin" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="projects" element={<Projects />} />

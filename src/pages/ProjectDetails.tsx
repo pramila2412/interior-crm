@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProjectById, updateProjectStatus, getQuotations, getOrders, getProductionJobs, getInstallations } from '../api/services';
 import { type Project, type ProjectStatus, type Quotation, type Order, type ProductionJob, type Installation } from '../api/db';
-import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase } from 'lucide-react';
+import { ArrowLeft, Calendar, IndianRupee, Activity, FolderKanban, Briefcase, Link } from 'lucide-react';
 import { SelectInput } from '../components/ui/SelectInput';
 
 const STATUSES: ProjectStatus[] = ['Enquiry', 'Measurement', 'Estimate', 'Production', 'Installation'];
@@ -89,6 +89,17 @@ export function ProjectDetails() {
         </div>
         
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              const url = `${window.location.origin}/track/${project.id}`;
+              navigator.clipboard.writeText(url);
+              alert('Tracking link copied to clipboard! You can send this to the customer.');
+            }}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-muted hover:text-foreground transition-colors"
+          >
+            <Link className="w-4 h-4" />
+            Copy Tracking Link
+          </button>
           <span className="text-sm font-medium text-muted">Current Status:</span>
           <SelectInput 
             value={project.status}
