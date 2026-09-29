@@ -5,6 +5,8 @@ const orderSchema = new mongoose.Schema({
   projectId: String,
   projectName: String,
   vendor: String,
+  customerName: String,
+  itemsCount: { type: Number, default: 1 },
   date: String,
   amount: Number,
   status: { type: String, default: 'DRAFT' }, // 'DRAFT' | 'ISSUED' | 'DELIVERED' | 'CANCELLED'

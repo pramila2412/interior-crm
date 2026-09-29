@@ -136,6 +136,8 @@ const createRoutes = (Model, path) => {
           poNumber: `PO-${Date.now().toString().slice(-6)}`,
           projectId: updated.projectId,
           projectName: updated.projectName,
+          customerName: updated.customerName,
+          itemsCount: updated.items ? updated.items.length : 1,
           vendor: 'Pending Assignment',
           date: new Date().toISOString().split('T')[0],
           amount: updated.total * 0.4, // Estimate 40% material cost

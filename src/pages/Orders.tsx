@@ -153,7 +153,7 @@ export function Orders() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-muted mb-1">Customer</label>
-                  <div className="text-foreground">{selectedOrder.customerName}</div>
+                  <div className="text-foreground">{selectedOrder.customerName || 'N/A'}</div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-muted mb-1">Status</label>
@@ -163,7 +163,7 @@ export function Orders() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-muted mb-1">Items Count</label>
-                  <div className="text-foreground">{selectedOrder.itemsCount}</div>
+                  <div className="text-foreground">{selectedOrder.itemsCount || 0}</div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-muted mb-1">Total Amount</label>
