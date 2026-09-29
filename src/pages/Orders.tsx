@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getOrders, updateOrderStatus } from '../api/services';
+import { getOrders, updateOrderStatus, getProjects, getQuotations } from '../api/services';
 import { type Order, type OrderStatus } from '../api/db';
 import { FileText, IndianRupee, Eye, ChevronRight, X } from 'lucide-react';
 
@@ -26,8 +26,34 @@ export function Orders() {
 
   const loadOrders = async () => {
     setLoading(true);
-    const data = await getOrders();
-    setOrders(data);
+    try {
+      const [data, projects, quotes] = await Promise.all([
+        getOrders(),
+        getProjects(),
+        getQuotations()
+      ]);
+
+      const enrichedOrders = data.map(order => {
+        let customerName = order.customerName;
+        let itemsCount = order.itemsCount;
+
+        if (!customerName) {
+          const project = projects.find(p => p.id === order.projectId);
+          customerName = project ? project.customerName : 'Unknown';
+        }
+
+        if (!itemsCount || itemsCount === 0) {
+          const quote = quotes.find(q => q.projectId === order.projectId && q.status === 'APPROVED');
+          itemsCount = quote?.items?.length || 1;
+        }
+
+        return { ...order, customerName, itemsCount };
+      });
+
+      setOrders(enrichedOrders);
+    } catch (e) {
+      console.error(e);
+    }
     setLoading(false);
   };
 
