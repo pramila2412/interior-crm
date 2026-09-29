@@ -49,7 +49,13 @@ export function TrackProject() {
     return <div className="min-h-screen flex items-center justify-center bg-background text-red-500 font-medium">{error || "Project not found"}</div>;
   }
 
-  const currentStageIndex = STAGES.indexOf(project.status);
+  let currentStageIndex = STAGES.indexOf(project.status);
+
+  // Auto-correct visual stage if a quote has been sent but the admin hasn't updated the project stage manually
+  // (applies to older records created before the backend automation was added)
+  if (currentStageIndex < 2 && quotations.some(q => ['SENT', 'APPROVED'].includes(q.status))) {
+    currentStageIndex = 2; // Estimate
+  }
 
   return (
     <div className="min-h-screen bg-secondary/20 p-4 md:p-8 font-sans">

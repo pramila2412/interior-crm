@@ -129,6 +129,19 @@ const createRoutes = (Model, path) => {
       if (!updated) return res.status(404).json({ error: 'Not found' });
 
       // BUSINESS LOGIC PIPELINE
+      if (path === '/api/quotations' && oldDoc.status !== 'SENT' && updated.status === 'SENT') {
+        // Advance Project and Customer to Estimate stage if they are early in the pipeline
+        const Project = require('./models/Project');
+        const Customer = require('./models/Customer');
+        const project = await Project.findById(updated.projectId);
+        if (project && (project.status === 'Enquiry' || project.status === 'Measurement')) {
+          await Project.findByIdAndUpdate(updated.projectId, { status: 'Estimate' });
+          if (updated.customerName) {
+            await Customer.findOneAndUpdate({ name: updated.customerName }, { status: 'Estimate' });
+          }
+        }
+      }
+
       if (path === '/api/quotations' && oldDoc.status !== 'APPROVED' && updated.status === 'APPROVED') {
         // Automatically create a Draft Purchase Order
         const Order = require('./models/Order');
