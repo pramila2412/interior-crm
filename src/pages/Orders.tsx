@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getOrders, updateOrderStatus } from '../api/services';
 import { type Order, type OrderStatus } from '../api/db';
-import { FileText, IndianRupee, Eye, ChevronRight } from 'lucide-react';
+import { FileText, IndianRupee, Eye, ChevronRight, X } from 'lucide-react';
 
 const NEXT_STATUS: Record<OrderStatus, OrderStatus | null> = {
   PROCESSING: 'READY',
@@ -18,6 +18,7 @@ const STATUS_COLORS: Record<OrderStatus, string> = {
 export function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   useEffect(() => {
     loadOrders();
@@ -92,6 +93,7 @@ export function Orders() {
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
+                          onClick={() => setSelectedOrder(order)}
                           className="p-2 text-muted hover:text-primary bg-background border border-border rounded-lg transition-colors"
                           title="View Details"
                         >
@@ -117,6 +119,70 @@ export function Orders() {
                 )}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Order Details Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 p-4 overflow-y-auto">
+          <div className="min-h-full flex items-center justify-center py-8">
+            <div className="bg-card w-full max-w-md rounded-2xl shadow-xl border border-border flex flex-col">
+              <div className="flex justify-between items-center p-6 border-b border-border">
+                <h2 className="text-xl font-bold text-foreground">Order Details</h2>
+                <button 
+                  onClick={() => setSelectedOrder(null)}
+                  className="text-muted hover:text-foreground transition-colors p-1 rounded-md hover:bg-secondary"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Order ID</label>
+                  <div className="font-mono text-foreground font-medium">{selectedOrder.id}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Date</label>
+                  <div className="text-foreground">{selectedOrder.date}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Project</label>
+                  <div className="text-foreground">{selectedOrder.projectName}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Customer</label>
+                  <div className="text-foreground">{selectedOrder.customerName}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Status</label>
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border inline-block ${STATUS_COLORS[selectedOrder.status]}`}>
+                    {selectedOrder.status}
+                  </span>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Items Count</label>
+                  <div className="text-foreground">{selectedOrder.itemsCount}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-1">Total Amount</label>
+                  <div className="flex items-center text-foreground font-semibold">
+                    <IndianRupee className="w-4 h-4 mr-1 text-muted" />
+                    {selectedOrder.amount.toLocaleString()}
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 border-t border-border bg-secondary/20 rounded-b-2xl flex justify-end">
+                <button 
+                  onClick={() => setSelectedOrder(null)}
+                  className="px-6 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
