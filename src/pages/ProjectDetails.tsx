@@ -74,11 +74,11 @@ export function ProjectDetails() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => navigate('/admin/projects')}
-            className="p-2 bg-card border border-border rounded-lg hover:bg-secondary transition-colors"
+            className="p-2 bg-card border border-border rounded-lg hover:bg-secondary transition-colors shrink-0"
           >
             <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
@@ -90,19 +90,19 @@ export function ProjectDetails() {
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap md:flex-nowrap">
           <button
             onClick={() => {
               const url = `${window.location.origin}/track/${project.id}`;
               navigator.clipboard.writeText(url);
               setShowLinkModal(true);
             }}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-muted hover:text-foreground transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-muted hover:text-foreground transition-colors whitespace-nowrap shrink-0"
           >
-            <Link className="w-4 h-4" />
+            <Link className="w-4 h-4 shrink-0" />
             Copy Tracking Link
           </button>
-          <span className="text-sm font-medium text-muted">Current Status:</span>
+          <span className="text-sm font-medium text-muted whitespace-nowrap shrink-0">Current Status:</span>
           <SelectInput 
             value={project.status}
             onChange={(e) => handleStatusChange(e.target.value as ProjectStatus)}
