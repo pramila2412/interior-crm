@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getPublicServices } from '../api/services';
 import { type PublicService } from '../api/db';
+import { Mail, MapPin, Phone } from 'lucide-react';
 
 export function Landing() {
   const [services, setServices] = useState<PublicService[]>([]);
@@ -11,12 +12,13 @@ export function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans scroll-smooth">
       <header className="px-8 py-6 flex justify-between items-center border-b border-border bg-card sticky top-0 z-10">
         <div className="text-2xl font-bold text-primary tracking-tight">AuraDesign</div>
         <nav className="space-x-6">
           <Link to="/" className="text-muted hover:text-primary transition-colors font-medium">Home</Link>
           <a href="#services" className="text-muted hover:text-primary transition-colors font-medium">Services</a>
+          <a href="#contact" className="text-muted hover:text-primary transition-colors font-medium">Contact Us</a>
           <Link to="/login" className="px-5 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors font-medium shadow-sm">
             Admin Login
           </Link>
@@ -169,6 +171,76 @@ export function Landing() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Contact Us Section */}
+        <section id="contact" className="py-24 px-8 bg-secondary/30 border-t border-border">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-4xl font-bold text-foreground mb-4">Get in Touch</h2>
+                <p className="text-muted text-lg">Ready to transform your space? Send us a message and our design team will get back to you within 24 hours.</p>
+              </div>
+              
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 text-foreground">
+                  <div className="w-12 h-12 bg-card border border-border rounded-full flex items-center justify-center shrink-0">
+                    <MapPin className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-muted">Visit Us</h4>
+                    <p className="font-medium">Check Post, Siliguri, 734001, WB - India</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4 text-foreground">
+                  <div className="w-12 h-12 bg-card border border-border rounded-full flex items-center justify-center shrink-0">
+                    <Mail className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-muted">Email Us</h4>
+                    <a href="mailto:info@auradesign.com" className="font-medium hover:text-primary transition-colors">info@auradesign.com</a>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4 text-foreground">
+                  <div className="w-12 h-12 bg-card border border-border rounded-full flex items-center justify-center shrink-0">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-muted">Call Us</h4>
+                    <a href="tel:+919800111244" className="font-medium hover:text-primary transition-colors">+91 98001 11244</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-card p-8 rounded-2xl border border-border shadow-sm">
+              <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert("Message sent successfully!"); }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">First Name</label>
+                    <input type="text" className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="John" required />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Last Name</label>
+                    <input type="text" className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Doe" required />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Email Address</label>
+                  <input type="email" className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="john@example.com" required />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Message</label>
+                  <textarea className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors min-h-[120px]" placeholder="Tell us about your project..." required></textarea>
+                </div>
+                <button type="submit" className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm">
+                  Send Message
+                </button>
+              </form>
+            </div>
           </div>
         </section>
       </main>
