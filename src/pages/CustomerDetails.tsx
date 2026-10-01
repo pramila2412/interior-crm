@@ -21,6 +21,7 @@ export function CustomerDetails() {
   const [fabricDetails, setFabricDetails] = useState('');
   const [productionTimeline, setProductionTimeline] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
+  const [notes, setNotes] = useState('');
 
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
 
@@ -37,6 +38,7 @@ export function CustomerDetails() {
           setFabricDetails(data.fabricDetails || '');
           setProductionTimeline(data.productionTimeline || '');
           setDeliveryDate(data.deliveryDate || '');
+          setNotes(data.notes || '');
           
           // Fetch related projects
           const allProjects = await getProjects();
@@ -56,7 +58,8 @@ export function CustomerDetails() {
       measurementDate,
       fabricDetails,
       productionTimeline,
-      deliveryDate
+      deliveryDate,
+      notes
     });
     if (updated) setCustomer(updated);
     setSaving(false);
@@ -134,6 +137,16 @@ export function CustomerDetails() {
               <Save className="w-4 h-4" />
               {saving ? 'Saving...' : 'Save Details'}
             </button>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-muted mb-1">General Notes / Lead Message</label>
+            <textarea 
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              placeholder="Enter general notes or view messages from the contact form..."
+              className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 text-foreground resize-y min-h-[120px]"
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
