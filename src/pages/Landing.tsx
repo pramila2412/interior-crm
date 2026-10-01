@@ -1,15 +1,49 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getPublicServices } from '../api/services';
+import { getPublicServices, addCustomer, addProject } from '../api/services';
 import { type PublicService } from '../api/db';
 import { Mail, MapPin, Phone } from 'lucide-react';
 
 export function Landing() {
   const [services, setServices] = useState<PublicService[]>([]);
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     getPublicServices().then(setServices);
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      await addCustomer({
+        name: fullName,
+        phone: formData.phone || 'N/A',
+        address: 'Online Lead (Website)',
+        service: 'Consultation',
+        status: 'Enquiry',
+        notes: `Email: ${formData.email}\nMessage: ${formData.message}`
+      });
+      await addProject({
+        projectName: `Lead - ${fullName}`,
+        customerName: fullName,
+        category: 'Consultation',
+        budget: 0,
+        status: 'Enquiry',
+        startDate: new Date().toISOString().split('T')[0],
+        endDate: 'TBD'
+      });
+      alert("Message sent successfully! Our team will contact you soon.");
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans scroll-smooth">
@@ -190,7 +224,7 @@ export function Landing() {
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-muted">Visit Us</h4>
-                    <p className="font-medium">Check Post, Siliguri, 734001, WB - India</p>
+                    <p className="font-medium">MG Road, Ernakulam, Kerala 682016, India</p>
                   </div>
                 </div>
                 
@@ -200,7 +234,7 @@ export function Landing() {
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-muted">Email Us</h4>
-                    <a href="mailto:info@auradesign.com" className="font-medium hover:text-primary transition-colors">info@auradesign.com</a>
+                    <a href="mailto:hello@auradesign.in" className="font-medium hover:text-primary transition-colors">hello@auradesign.in</a>
                   </div>
                 </div>
                 
@@ -210,34 +244,40 @@ export function Landing() {
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-muted">Call Us</h4>
-                    <a href="tel:+919800111244" className="font-medium hover:text-primary transition-colors">+91 98001 11244</a>
+                    <a href="tel:+919876543210" className="font-medium hover:text-primary transition-colors">+91 98765 43210</a>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-card p-8 rounded-2xl border border-border shadow-sm">
-              <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert("Message sent successfully!"); }}>
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">First Name</label>
-                    <input type="text" className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="John" required />
+                    <input type="text" value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="John" required />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Last Name</label>
-                    <input type="text" className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Doe" required />
+                    <input type="text" value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Doe" required />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Email Address</label>
+                    <input type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="john@example.com" required />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Phone Number</label>
+                    <input type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="+91 98765 43210" required />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Email Address</label>
-                  <input type="email" className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="john@example.com" required />
-                </div>
-                <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Message</label>
-                  <textarea className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors min-h-[120px]" placeholder="Tell us about your project..." required></textarea>
+                  <textarea value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full bg-background border border-border rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors min-h-[120px]" placeholder="Tell us about your project..." required></textarea>
                 </div>
-                <button type="submit" className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm">
-                  Send Message
+                <button type="submit" disabled={isSubmitting} className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50">
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
