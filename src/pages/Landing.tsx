@@ -43,6 +43,64 @@ export function Landing() {
           </div>
         </section>
 
+        {/* Features Section (Inspired by Competitor) */}
+        <section id="features" className="py-24 px-8 max-w-7xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-4xl font-bold text-foreground">Simple and powerful online project manager</h2>
+            <p className="text-muted text-lg max-w-2xl mx-auto">A super easy software to track, monitor & manage your entire furnishing operation.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
+            <div className="space-y-6">
+              <h3 className="text-3xl font-bold text-foreground">Create and Manage Projects easily</h3>
+              <p className="text-lg text-muted">Built for Furnishing houses in India, using our platform is simple and intuitive - and covers the entire furnishing workflow from enquiry to installation.</p>
+              <ul className="space-y-3 mt-6">
+                <li className="flex items-center gap-3 text-foreground font-medium"><div className="w-2 h-2 rounded-full bg-primary"></div> Create and Close new projects</li>
+                <li className="flex items-center gap-3 text-foreground font-medium"><div className="w-2 h-2 rounded-full bg-primary"></div> Assign tasks to your team</li>
+                <li className="flex items-center gap-3 text-foreground font-medium"><div className="w-2 h-2 rounded-full bg-primary"></div> Keep customer details organized</li>
+              </ul>
+            </div>
+            <div className="bg-secondary/30 rounded-2xl p-8 border border-border shadow-inner min-h-[300px] flex items-center justify-center">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Dashboard Preview" className="rounded-xl shadow-lg border border-border" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center mb-20 md:flex-row-reverse">
+            <div className="order-2 md:order-1 bg-secondary/30 rounded-2xl p-8 border border-border shadow-inner min-h-[300px] flex items-center justify-center">
+              <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" alt="Quotation Preview" className="rounded-xl shadow-lg border border-border" />
+            </div>
+            <div className="order-1 md:order-2 space-y-6">
+              <h3 className="text-3xl font-bold text-foreground">Generate and share quotations instantly</h3>
+              <p className="text-lg text-muted">Create quotations and invoices with a click of a button - and share them with another! Never manually calculate again.</p>
+              <ul className="space-y-3 mt-6">
+                <li className="flex items-center gap-3 text-foreground font-medium"><div className="w-2 h-2 rounded-full bg-primary"></div> Generate Quotations</li>
+                <li className="flex items-center gap-3 text-foreground font-medium"><div className="w-2 h-2 rounded-full bg-primary"></div> Public Magic Tracking Links</li>
+                <li className="flex items-center gap-3 text-foreground font-medium"><div className="w-2 h-2 rounded-full bg-primary"></div> One-click client approvals</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="space-y-6">
+              <h3 className="text-3xl font-bold text-foreground">Track everything about your project</h3>
+              <p className="text-lg text-muted">Never miss an update. Access your workspace on all devices. Anytime. Anywhere.</p>
+              <div className="grid grid-cols-2 gap-6 mt-6">
+                <div className="p-4 bg-card border border-border rounded-xl">
+                  <h4 className="font-bold text-primary mb-1">Save money and time</h4>
+                  <p className="text-sm text-muted">Get rid of manual entry and human error.</p>
+                </div>
+                <div className="p-4 bg-card border border-border rounded-xl">
+                  <h4 className="font-bold text-primary mb-1">Track goods</h4>
+                  <p className="text-sm text-muted">Never miss a delivery or order status.</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-secondary/30 rounded-2xl p-8 border border-border shadow-inner min-h-[300px] flex items-center justify-center">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Tracking Preview" className="rounded-xl shadow-lg border border-border" />
+            </div>
+          </div>
+        </section>
+
         {/* Services Section */}
         <section id="services" className="py-24 px-8 max-w-7xl mx-auto">
           <div className="text-center mb-16 space-y-4">
