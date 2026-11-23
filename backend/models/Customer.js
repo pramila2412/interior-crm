@@ -12,7 +12,8 @@ const customerSchema = new mongoose.Schema({
   measurementDate: String,
   fabricDetails: String,
   productionTimeline: String,
-  deliveryDate: String
+  deliveryDate: String,
+  notes: String
 }, { timestamps: true });
 
 // Convert _id to id for frontend compatibility

@@ -9,7 +9,8 @@ const productionJobSchema = new mongoose.Schema({
   priority: { type: String, default: 'Normal' },
   startDate: String,
   deadline: String,
-  assignedTo: String
+  assignedTo: String,
+  assigneeName: String
 }, { timestamps: true });
 
 productionJobSchema.set('toJSON', {

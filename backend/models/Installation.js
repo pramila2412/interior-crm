@@ -8,6 +8,7 @@ const installationSchema = new mongoose.Schema({
   timeSlot: String,
   address: String,
   teamLead: String,
+  assigneeName: String,
   status: { type: String, default: 'SCHEDULED' }, // 'SCHEDULED' | 'IN_PROGRESS' | 'COMPLETED' | 'RESCHEDULED'
   notes: String
 }, { timestamps: true });
