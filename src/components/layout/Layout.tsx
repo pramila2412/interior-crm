@@ -29,7 +29,7 @@ export function Layout() {
       <div className="flex-1 flex flex-col relative overflow-hidden">
         <Topbar onMobileToggle={() => setMobileOpen(prev => !prev)} />
         <main className="flex-1 flex flex-col overflow-hidden bg-background rounded-tl-2xl border-l border-t border-border shadow-soft">
-          <div className="flex-1 overflow-y-auto p-4 md:p-8 max-w-7xl mx-auto w-full">
+          <div className="flex-1 overflow-auto p-4 md:p-6 lg:p-8 w-full">
             <Outlet />
           </div>
         </main>

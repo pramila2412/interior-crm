@@ -152,12 +152,15 @@ export function Projects() {
         <div className="text-center py-10 text-muted">Loading projects...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex overflow-x-auto xl:grid xl:grid-cols-5 gap-4 pb-4 flex-1 items-start min-h-[calc(100vh-220px)] snap-x">
+          <div className="flex gap-4 overflow-x-auto pb-6 flex-1 items-start min-h-[calc(100vh-220px)]">
             {STATUSES.map(status => (
-              <div key={status} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50 min-w-[280px] w-[85vw] xl:w-auto snap-center shrink-0">
+              <div 
+                key={status} 
+                className="w-72 sm:w-80 shrink-0 bg-black/[0.02] rounded-xl p-4 flex flex-col max-h-full border border-border/70 shadow-sm"
+              >
                 <div className="flex items-center justify-between mb-4 px-1">
-                  <h3 className="font-semibold text-foreground">{status}</h3>
-                  <span className="bg-background text-muted text-xs font-bold px-2 py-1 rounded-full shadow-sm">
+                  <h3 className="font-semibold text-foreground text-sm tracking-tight">{status}</h3>
+                  <span className="bg-card border border-border/60 text-muted text-xs font-semibold px-2.5 py-0.5 rounded-full shadow-sm">
                     {projects.filter(p => p.status === status).length}
                   </span>
                 </div>
@@ -167,7 +170,7 @@ export function Projects() {
                     <div 
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`flex-1 overflow-y-auto transition-colors rounded-lg p-1 ${snapshot.isDraggingOver ? 'bg-secondary/50' : ''}`}
+                      className={`flex-1 overflow-y-auto transition-colors rounded-lg p-1 min-h-[120px] ${snapshot.isDraggingOver ? 'bg-primary/5 ring-1 ring-primary/20' : ''}`}
                     >
                       {projects.filter(p => p.status === status).map((project, index) => (
                         <Draggable key={project.id} draggableId={project.id} index={index}>

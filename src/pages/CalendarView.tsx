@@ -134,14 +134,16 @@ export function CalendarView() {
         <div className="text-center py-10 text-muted">Loading schedule...</div>
       ) : (
         <div className="flex-1 bg-card rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
-          <div className="grid grid-cols-7 border-b border-border bg-background/50">
-            {weekdays.map(day => (
-              <div key={day} className="p-3 text-center text-sm font-semibold text-muted uppercase tracking-wider">
-                {day}
+          <div className="overflow-x-auto">
+            <div className="min-w-[750px]">
+              <div className="grid grid-cols-7 border-b border-border bg-background/50">
+                {weekdays.map(day => (
+                  <div key={day} className="p-3 text-center text-sm font-semibold text-muted uppercase tracking-wider">
+                    {day}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 flex-1 auto-rows-fr min-h-[600px] bg-border gap-px">
+              <div className="grid grid-cols-7 flex-1 auto-rows-fr min-h-[600px] bg-border gap-px">
             {days.map((d, idx) => {
               if (!d) return <div key={`empty-${idx}`} className="bg-card min-h-[120px]"></div>;
 
@@ -180,6 +182,8 @@ export function CalendarView() {
                 </div>
               );
             })}
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -153,12 +153,15 @@ export function Customers() {
         <div className="text-center py-10 text-muted">Loading customers...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex overflow-x-auto xl:grid xl:grid-cols-5 gap-4 pb-4 flex-1 items-start min-h-[calc(100vh-220px)] snap-x">
+          <div className="flex gap-4 overflow-x-auto pb-6 flex-1 items-start min-h-[calc(100vh-220px)]">
             {STATUSES.map(status => (
-              <div key={status} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50 min-w-[280px] w-[85vw] xl:w-auto snap-center shrink-0">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-foreground text-sm uppercase tracking-wider">{status}</h3>
-                  <span className="bg-background border border-border text-muted text-xs font-bold px-2 py-0.5 rounded-full">
+              <div 
+                key={status} 
+                className="w-72 sm:w-80 shrink-0 bg-black/[0.02] rounded-xl p-4 flex flex-col max-h-full border border-border/70 shadow-sm"
+              >
+                <div className="flex items-center justify-between mb-4 px-1">
+                  <h3 className="font-semibold text-foreground text-sm tracking-tight">{status}</h3>
+                  <span className="bg-card border border-border/60 text-muted text-xs font-semibold px-2.5 py-0.5 rounded-full shadow-sm">
                     {customers.filter(c => c.status === status).length}
                   </span>
                 </div>
@@ -168,8 +171,8 @@ export function Customers() {
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className={`flex-1 rounded-xl p-3 min-h-[300px] border transition-colors ${
-                        snapshot.isDraggingOver ? 'bg-secondary/20 border-secondary' : 'bg-background/50 border-border/50'
+                      className={`flex-1 rounded-xl p-1 min-h-[150px] transition-colors ${
+                        snapshot.isDraggingOver ? 'bg-primary/5 ring-1 ring-primary/20' : ''
                       }`}
                     >
                       {customers.filter(c => c.status === status).map((customer, index) => (
@@ -180,7 +183,7 @@ export function Customers() {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               style={{ ...provided.draggableProps.style }}
-                              className={`${snapshot.isDragging ? 'rotate-2 scale-105' : ''} transition-transform`}
+                              className={`${snapshot.isDragging ? 'rotate-2 scale-105' : ''} transition-transform mb-3`}
                             >
                               <CustomerCard customer={customer} />
                             </div>
