@@ -96,7 +96,7 @@ export function Tasks() {
   const TaskCard = ({ task }: { task: Task }) => (
     <div 
       onClick={() => navigate(`/admin/tasks/${task.id}`)}
-      className="bg-card border border-border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-3 cursor-pointer"
+      className="bg-card border border-border p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
     >
       <div className="flex justify-between items-start mb-2">
         <h4 className="font-medium text-foreground text-sm">{task.title}</h4>
@@ -172,13 +172,13 @@ export function Tasks() {
         <div className="text-center py-10 text-muted">Loading tasks...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex gap-4 overflow-x-auto pb-6 flex-1 items-start min-h-[calc(100vh-220px)]">
+          <div className="flex gap-4 overflow-x-auto pb-4 flex-1 items-stretch h-[calc(100vh-210px)] min-h-[500px]">
             {STATUSES.map(statusCol => (
               <div 
                 key={statusCol} 
-                className="w-72 sm:w-80 shrink-0 bg-black/[0.02] rounded-xl p-4 flex flex-col max-h-full border border-border/70 shadow-sm"
+                className="w-72 sm:w-80 shrink-0 bg-black/[0.03] rounded-2xl p-4 flex flex-col h-full border border-border/70 shadow-sm overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-4 px-1">
+                <div className="flex items-center justify-between mb-3 px-1 shrink-0">
                   <h3 className="font-semibold text-foreground text-sm tracking-tight">{statusCol.replace('_', ' ')}</h3>
                   <span className="bg-card border border-border/60 text-muted text-xs font-semibold px-2.5 py-0.5 rounded-full shadow-sm">
                     {tasks.filter(t => t.status === statusCol).length}
@@ -190,7 +190,7 @@ export function Tasks() {
                     <div 
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`flex-1 overflow-y-auto transition-colors rounded-lg p-1 min-h-[120px] ${snapshot.isDraggingOver ? 'bg-primary/5 ring-1 ring-primary/20' : ''}`}
+                      className={`flex-1 overflow-y-auto pr-1 min-h-0 space-y-3 rounded-xl transition-colors ${snapshot.isDraggingOver ? 'bg-primary/5 ring-1 ring-primary/20' : ''}`}
                     >
                       {tasks.filter(t => t.status === statusCol).map((task, index) => (
                         <Draggable key={task.id} draggableId={task.id} index={index}>

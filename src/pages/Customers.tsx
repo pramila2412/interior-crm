@@ -84,7 +84,7 @@ export function Customers() {
   const CustomerCard = ({ customer }: { customer: Customer }) => (
     <div 
       onClick={() => navigate(`/admin/customers/${customer.id}`)}
-      className="bg-card border border-border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-3 cursor-pointer"
+      className="bg-card border border-border p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
     >
       <h4 className="font-medium text-foreground mb-1">{customer.name}</h4>
       <p className="text-sm text-muted mb-3">{customer.service}</p>
@@ -153,13 +153,13 @@ export function Customers() {
         <div className="text-center py-10 text-muted">Loading customers...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex gap-4 overflow-x-auto pb-6 flex-1 items-start min-h-[calc(100vh-220px)]">
+          <div className="flex gap-4 overflow-x-auto pb-4 flex-1 items-stretch h-[calc(100vh-210px)] min-h-[500px]">
             {STATUSES.map(status => (
               <div 
                 key={status} 
-                className="w-72 sm:w-80 shrink-0 bg-black/[0.02] rounded-xl p-4 flex flex-col max-h-full border border-border/70 shadow-sm"
+                className="w-72 sm:w-80 shrink-0 bg-black/[0.03] rounded-2xl p-4 flex flex-col h-full border border-border/70 shadow-sm overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-4 px-1">
+                <div className="flex items-center justify-between mb-3 px-1 shrink-0">
                   <h3 className="font-semibold text-foreground text-sm tracking-tight">{status}</h3>
                   <span className="bg-card border border-border/60 text-muted text-xs font-semibold px-2.5 py-0.5 rounded-full shadow-sm">
                     {customers.filter(c => c.status === status).length}
@@ -171,7 +171,7 @@ export function Customers() {
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className={`flex-1 rounded-xl p-1 min-h-[150px] transition-colors ${
+                      className={`flex-1 overflow-y-auto pr-1 min-h-0 space-y-3 rounded-xl transition-colors ${
                         snapshot.isDraggingOver ? 'bg-primary/5 ring-1 ring-primary/20' : ''
                       }`}
                     >
@@ -183,7 +183,7 @@ export function Customers() {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               style={{ ...provided.draggableProps.style }}
-                              className={`${snapshot.isDragging ? 'rotate-2 scale-105' : ''} transition-transform mb-3`}
+                              className={snapshot.isDragging ? 'rotate-2 scale-105' : ''}
                             >
                               <CustomerCard customer={customer} />
                             </div>
