@@ -96,18 +96,18 @@ export function Projects() {
   const ProjectCard = ({ project }: { project: Project }) => (
     <div 
       onClick={() => navigate(`/admin/projects/${project.id}`)}
-      className="bg-card border border-border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-3 cursor-pointer"
+      className="bg-card border border-border/70 p-4 rounded-xl shadow-soft hover:shadow-md transition-shadow mb-3 cursor-pointer"
     >
       <div className="flex justify-between items-start mb-1">
-        <h4 className="font-medium text-foreground">{project.projectName}</h4>
+        <h4 className="font-semibold text-foreground text-sm">{project.projectName}</h4>
       </div>
-      <p className="text-sm text-muted mb-2">{project.category}</p>
+      <p className="text-xs text-muted mb-2">{project.category}</p>
       
       <div className="flex items-center gap-1.5 text-xs text-muted mb-3 font-medium">
-        <span className="bg-secondary/50 px-2 py-0.5 rounded-sm">{project.customerName}</span>
+        <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-md font-medium">{project.customerName}</span>
       </div>
       
-      <div className="flex justify-between items-center mt-3 pt-3 border-t border-border">
+      <div className="flex justify-between items-center mt-3 pt-3 border-t border-border/70">
         <span className="text-xs font-semibold text-foreground flex items-center">
           <IndianRupee className="w-3 h-3 mr-0.5" />
           {project.budget.toLocaleString()}
@@ -152,7 +152,7 @@ export function Projects() {
         <div className="text-center py-10 text-muted">Loading projects...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex overflow-x-auto xl:grid xl:grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)] snap-x">
+          <div className="flex overflow-x-auto xl:grid xl:grid-cols-5 gap-4 pb-4 flex-1 items-start min-h-[calc(100vh-220px)] snap-x">
             {STATUSES.map(status => (
               <div key={status} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50 min-w-[280px] w-[85vw] xl:w-auto snap-center shrink-0">
                 <div className="flex items-center justify-between mb-4 px-1">

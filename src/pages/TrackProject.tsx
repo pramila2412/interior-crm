@@ -58,20 +58,20 @@ export function TrackProject() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/20 p-4 md:p-8 font-sans">
+    <div className="min-h-screen bg-background p-4 md:p-8 font-sans">
       <div className="max-w-3xl mx-auto space-y-8">
         
         {/* Header */}
-        <div className="bg-card p-6 md:p-8 rounded-2xl shadow-sm border border-border text-center">
+        <div className="bg-card p-6 md:p-8 rounded-2xl shadow-soft border border-border text-center">
           <h1 className="text-2xl font-bold text-primary mb-2">Project Tracker</h1>
           <p className="text-muted">Welcome, {project.customerName}</p>
-          <div className="mt-4 inline-block px-4 py-2 bg-secondary rounded-lg border border-border">
-            <span className="text-sm font-medium text-foreground">{project.projectName}</span>
+          <div className="mt-4 inline-block px-4 py-2 bg-primary/10 rounded-lg border border-primary/20">
+            <span className="text-sm font-semibold text-primary">{project.projectName}</span>
           </div>
         </div>
 
         {/* Timeline */}
-        <div className="bg-card p-6 md:p-8 rounded-2xl shadow-sm border border-border">
+        <div className="bg-card p-6 md:p-8 rounded-2xl shadow-soft border border-border">
           <h2 className="text-lg font-bold text-foreground mb-6">Progress Timeline</h2>
           <div className="relative">
             <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border"></div>

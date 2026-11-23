@@ -3,7 +3,108 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
+  :root {
+    --background: 60 10% 96%; /* #F7F7F5 */
+    --foreground: 0 0% 7%; /* #111111 */
+
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 0 0% 7%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
+    
+    --primary: 35 27% 50%; /* #A1845C */
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 34 34% 75%; /* #D6C2A8 */
+    --secondary-foreground: 0 0% 7%;
+    
+    --muted: 220 13% 91%;
+    --muted-foreground: 215 14% 46%; /* #6B7280 */
+    
+    --accent: 60 15% 98%;
+    --accent-foreground: 0 0% 7%;
+    
+    --destructive: 0 84% 60%; /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+    
+    --success: 142 71% 45%; /* #22C55E */
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%; /* #F59E0B */
+    --warning-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%; /* #E5E7EB */
+    --input: 220 13% 91%;
+    --ring: 35 27% 50%;
+    
+    --secondary-bg: 0 0% 100%;
+    --sidebar-bg: 60 15% 98%; /* #FAFAF8 */
+    
+    --radius: 0.75rem;
+
+    /* Brand accent */
+    --org-accent: #A1845C;
+    --org-accent-hover: #8e7450;
   }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 60 10% 96%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 60 10% 96%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 60 10% 96%;
+
+    --primary: 35 27% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 60 10% 96%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 215 14% 65%;
+
+    --accent: 0 0% 15%;
+    --accent-foreground: 60 10% 96%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 35 27% 50%;
+    
+    --secondary-bg: 0 0% 10%;
+    --sidebar-bg: 0 0% 8%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }

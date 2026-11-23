@@ -153,7 +153,7 @@ export function Customers() {
         <div className="text-center py-10 text-muted">Loading customers...</div>
       ) : view === 'kanban' ? (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="flex overflow-x-auto xl:grid xl:grid-cols-4 gap-6 pb-4 flex-1 items-start h-[calc(100vh-200px)] snap-x">
+          <div className="flex overflow-x-auto xl:grid xl:grid-cols-5 gap-4 pb-4 flex-1 items-start min-h-[calc(100vh-220px)] snap-x">
             {STATUSES.map(status => (
               <div key={status} className="bg-secondary/30 rounded-xl p-4 flex flex-col max-h-full border border-border/50 min-w-[280px] w-[85vw] xl:w-auto snap-center shrink-0">
                 <div className="flex items-center justify-between mb-4">

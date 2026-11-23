@@ -66,7 +66,7 @@ export function CustomerDetails() {
   };
 
   if (loading) return <div className="p-8 text-muted">Loading...</div>;
-  if (!customer) return <div className="p-8 text-terracotta">Customer not found</div>;
+  if (!customer) return <div className="p-8 text-destructive">Customer not found</div>;
 
   return (
     <div className="space-y-6 max-w-4xl">

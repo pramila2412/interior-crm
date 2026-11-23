@@ -53,9 +53,9 @@ export function Login() {
           <p className="text-center text-muted mb-6 text-sm">Sign in to manage customers and staff.</p>
           
           {error && (
-            <div className="mb-6 p-3 bg-terracotta/10 border border-terracotta/20 rounded-lg flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-terracotta shrink-0 mt-0.5" />
-              <p className="text-sm text-terracotta">{error}</p>
+            <div className="mb-6 p-3 bg-destructive/10 border border-destructive/20 rounded-lg flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+              <p className="text-sm text-destructive">{error}</p>
             </div>
           )}
 
